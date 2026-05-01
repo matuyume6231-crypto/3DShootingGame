@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{6902ceaf-f25c-44cf-9f61-420e26a709c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Player">
+      <UniqueIdentifier>{cea5d58e-54e1-4e16-b01d-06f7ed2cec14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Bullet">
+      <UniqueIdentifier>{83a08a49-4f39-41b6-afe9-2244568af9af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Enemy">
+      <UniqueIdentifier>{826c1f8b-3e76-41de-a38f-558215a01bd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{07f65c0c-0738-4a16-a0c4-d8a74ecaf5e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\Play">
+      <UniqueIdentifier>{937e288d-34a9-4328-9a1b-f2359bac7df0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\Title">
+      <UniqueIdentifier>{be95809e-ab2d-4a17-994b-739ae47a1dfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\GameClear">
+      <UniqueIdentifier>{dacf778e-73b3-436a-a9e8-0bf132fde59a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\GameOver">
+      <UniqueIdentifier>{71cfa2ec-64a7-4376-a3f7-b43e3f30d9dc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\SceneManager.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Title\Title.cpp">
+      <Filter>Source\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Play\Play.cpp">
+      <Filter>Source\Scene\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\GameOver\GameOver.cpp">
+      <Filter>Source\Scene\GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\GameClear\GameClear.cpp">
+      <Filter>Source\Scene\GameClear</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player\Player.cpp">
+      <Filter>Source\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Scene\SceneManager.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Title\Title.h">
+      <Filter>Source\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Play\Play.h">
+      <Filter>Source\Scene\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\GameOver\GameOver.h">
+      <Filter>Source\Scene\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\GameClear\GameClear.h">
+      <Filter>Source\Scene\GameClear</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\Player.h">
+      <Filter>Source\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

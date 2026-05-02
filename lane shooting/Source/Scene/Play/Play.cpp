@@ -2,13 +2,13 @@
 #include "Play.h"
 #include "../SceneManager.h"
 #include "../../Player/Player.h"
+#include "../../Stage/Stage.h"
 
-
-void InitPlayScene() 
+void InitPlayScene()
 {
+    InitStage();
     InitPlayer();
 }
-
 void LoadPlayScene()
 {
 
@@ -36,12 +36,13 @@ void StepPlayScene()
 
 void UpdatePlayScene()
 {
+    UpdateStage();
     UpdatePlayer();
 }
 
 void DrawPlayScene()
 {
-    DrawString(500, 300, "PLAY SCENE", GetColor(255, 255, 255));
+    DrawStage();
     DrawPlayer();
 }
 

@@ -28,6 +28,9 @@
     <Filter Include="Source\Scene\GameOver">
       <UniqueIdentifier>{71cfa2ec-64a7-4376-a3f7-b43e3f30d9dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Stage">
+      <UniqueIdentifier>{28bfd176-c802-4264-bde7-918f4977e4cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -51,6 +54,9 @@
     <ClCompile Include="Source\Player\Player.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Stage\Stage.cpp">
+      <Filter>Source\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -70,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="Source\Player\Player.h">
       <Filter>Source\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stage\Stage.h">
+      <Filter>Source\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

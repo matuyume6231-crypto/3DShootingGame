@@ -1,19 +1,24 @@
 #pragma once
+#include "DxLib.h"
 
-struct Player
+// プレイヤークラス
+class Player
 {
-    int lane;      // 現在のレーン
-    float x, y, z; // 位置
+public:
+	Player();	// コンストラクタ
+	~Player();	// デストラクタ
+
+	void Init();	// 初期化
+	void Load();	// ロード
+	void Start();	// 開始
+	void Step();	// ステップ
+	void Update();	// 更新
+	void Draw();	// 描画
+	void Fin();		// 終了
+
+private:
+	int m_Handle;	// 画像ハンドル
+	int lane;      // 現在のレーン
+	float x, y, z; // 位置
+	VECTOR m_Pos;
 };
-
-// 関数
-void InitPlayer();
-void LoadPlayer();
-void StartPlayer();
-void StepPlayer();
-void UpdatePlayer();
-void DrawPlayer();
-void FinPlayer();
-
-// 取得用
-Player* GetPlayer();

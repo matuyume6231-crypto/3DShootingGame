@@ -7,7 +7,7 @@
 void InitPlayScene()
 {
     InitStage();
-    InitPlayer();
+    
 }
 void LoadPlayScene()
 {
@@ -37,13 +37,11 @@ void StepPlayScene()
 void UpdatePlayScene()
 {
     UpdateStage();
-    UpdatePlayer();
 }
 
 void DrawPlayScene()
 {
     DrawStage();
-    DrawPlayer();
 }
 
 void FinPlayScene() {}

@@ -1,24 +1,45 @@
+#include "DxLib.h"
 #include "GameClear.h"
 #include "../SceneManager.h"
-#include "DxLib.h"
+#include "../../Input/Input.h"
 
-void InitGameClearScene() {}
-void LoadGameClearScene() {}
-void StartGameClearScene() {}
-
-void StepGameClearScene()
+GameClearScene::GameClearScene() : SceneBase()
 {
-    if (CheckHitKey(KEY_INPUT_RETURN))
+}
+
+GameClearScene::~GameClearScene()
+{
+}
+
+void GameClearScene::Init()
+{
+}
+
+void GameClearScene::Load()
+{
+}
+
+void GameClearScene::Start()
+{
+}
+
+void GameClearScene::Step()
+{
+    if (Input::IsTriggerKey(Input::KEY_Z))
     {
-        ChangeScene(SCENE_TITLE);
+        SceneManager::GetInstance()->ChangeScene(TITLE);
     }
 }
 
-void UpdateGameClearScene() {}
-
-void DrawGameClearScene()
+void GameClearScene::Update()
 {
-    DrawString(500, 300, "GAME CLEAR!", GetColor(0, 255, 0));
 }
 
-void FinGameClearScene() {}
+void GameClearScene::Draw()
+{
+    DrawString(600, 400, "GAME CLEAR!", GetColor(0, 255, 0));
+}
+
+void GameClearScene::Fin()
+{
+}

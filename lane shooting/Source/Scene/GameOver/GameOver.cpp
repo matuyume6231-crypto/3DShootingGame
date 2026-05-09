@@ -1,24 +1,46 @@
+#include "DxLib.h"
 #include "GameOver.h"
 #include "../SceneManager.h"
-#include "DxLib.h"
+#include "../../Input/Input.h"
 
-void InitGameOverScene() {}
-void LoadGameOverScene() {}
-void StartGameOverScene() {}
-
-void StepGameOverScene()
+GameOverScene::GameOverScene() : SceneBase()
 {
-    if (CheckHitKey(KEY_INPUT_RETURN))
+}
+
+GameOverScene::~GameOverScene()
+{
+}
+
+void GameOverScene::Init()
+{
+}
+
+void GameOverScene::Load()
+{
+}
+
+void GameOverScene::Start()
+{
+}
+
+void GameOverScene::Step()
+{
+    // Z‚Åƒ^ƒCƒgƒ‹‚Ö–ß‚é
+    if (Input::IsTriggerKey(Input::KEY_Z))
     {
-        ChangeScene(SCENE_TITLE);
+        SceneManager::GetInstance()->ChangeScene(TITLE);
     }
 }
 
-void UpdateGameOverScene() {}
-
-void DrawGameOverScene()
+void GameOverScene::Update()
 {
-    DrawString(500, 300, "GAME OVER - PRESS ENTER", GetColor(255, 0, 0));
 }
 
-void FinGameOverScene() {}
+void GameOverScene::Draw()
+{
+    DrawString(600, 400, "GAME OVER", GetColor(255, 0, 0));
+}
+
+void GameOverScene::Fin()
+{
+}

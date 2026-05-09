@@ -1,240 +1,122 @@
 #include "SceneManager.h"
-#include "Title/Title.h"
-#include "Play/Play.h"
-#include "GameClear/GameClear.h"
-#include "GameOver/GameOver.h"
+#include "../Scene/Title/Title.h"
+#include "../Scene/Play/Play.h"
+#include "../Scene/GameOver/GameOver.h"
+#include "../Scene/GameClear/GameClear.h"
 
-// 最初に開かれるシーンを初期値にする
-Scene g_NowScene = SCENE_TITLE;
+SceneManager* SceneManager::m_Instance = nullptr;
 
-// 次に遷移するシーン
-Scene g_NextScene = SCENE_TITLE;
-
-// シーンの状態
-SceneState g_SceneState = SCENE_STATE_INIT;
-
-// ループを終了するか
-bool g_IsLoopEnd = false;
-
-void SceneManagerUpdate()
+SceneManager::SceneManager()
 {
-	// シーンの状態ごとに各シーンの処理を呼ぶ
-	switch (g_SceneState)
+	m_NowScene = nullptr;
+	m_State = SCENE_STATE_NONE;
+	m_NextScene = SCENE_TYPE_NONE;
+
+	for (int i = 0; i < SCENE_STATE_MAX; i++)
 	{
-	case SCENE_STATE_INIT:	// 初期化
-		InitScene();
-
-		// ロードへ
-		g_SceneState = SCENE_STATE_LOAD;
-		break;
-
-	case SCENE_STATE_LOAD:	// ロード
-		LoadScene();
-
-		// ループ終了フラグを折っておく
-		g_IsLoopEnd = false;
-
-		// 開始へ
-		g_SceneState = SCENE_STATE_START;
-		break;
-
-	case SCENE_STATE_START:	// 開始（ループ開始前に1回だけ）
-		// 開始処理
-		StartScene();
-
-		// 開始へ
-		g_SceneState = SCENE_STATE_LOOP;
-		break;
-
-	case SCENE_STATE_LOOP:	// ループ（ステップ→更新→描画）
-		StepScene();
-		UpdateScene();
-		DrawScene();
-
-		// ループ終了フラグが立ったら終了処理へ
-		if (g_IsLoopEnd)
-		{
-			g_SceneState = SCENE_STATE_FIN;
-		}
-		break;
-
-	case SCENE_STATE_FIN:	// 終了
-		FinScene();
-
-		// 次のシーンに切り替える
-		g_NowScene = g_NextScene;
-		// シーンは初期化から
-		g_SceneState = SCENE_STATE_INIT;
-		break;
+		m_StateFunc[i] = nullptr;
 	}
 }
 
-void InitScene()
+SceneManager::~SceneManager()
 {
-	// 開いているシーンの初期化処理を呼ぶ
-	switch (g_NowScene)
+	Fin();
+}
+
+void SceneManager::Init()
+{
+	// 関数ポインタ配列に各関数を設定
+	m_StateFunc[INIT] = &SceneManager::InitScene;
+	m_StateFunc[LOAD] = &SceneManager::LoadScene;
+	m_StateFunc[START] = &SceneManager::StartScene;
+	m_StateFunc[LOOP] = &SceneManager::LoopScene;
+	m_StateFunc[FIN] = &SceneManager::FinScene;
+
+	// 最初のシーンを作成して初期化から開始
+	CreateScene(TITLE);
+	m_State = INIT;
+}
+
+void SceneManager::Update()
+{
+	// 関数ポインタ配列であれば1行で状態五との関数を呼べる
+	(this->*m_StateFunc[m_State])();
+}
+
+void SceneManager::Fin()
+{
+	// シーンが残っていれば削除する
+	if (m_NowScene)
 	{
-	case SCENE_TITLE:	// タイトル
-		InitTitleScene();
-		break;
-
-	case SCENE_PLAY:	// プレイ
-		InitPlayScene();
-		break;
-
-	case SCENE_GAME_CLEAR:	// ゲームクリア
-		InitGameClearScene();
-		break;
-
-	case SCENE_GAME_OVER:	// ゲームオーバー
-		InitGameOverScene();
-		break;
+		delete m_NowScene;
 	}
 }
 
-void LoadScene()
+void SceneManager::ChangeScene(SceneType type)
 {
-	// 開いているシーンのロード処理を呼ぶ
-	switch (g_NowScene)
-	{
-	case SCENE_TITLE:	// タイトル
-		LoadTitleScene();
-		break;
-
-	case SCENE_PLAY:	// プレイ
-		LoadPlayScene();
-		break;
-
-	case SCENE_GAME_CLEAR:	// ゲームクリア
-		LoadGameClearScene();
-		break;
-
-	case SCENE_GAME_OVER:	// ゲームオーバー
-		LoadGameOverScene();
-		break;
-	}
+	// 次のシーンを設定して終了状態へ
+	m_NextScene = type;
+	m_State = FIN;
 }
 
-void StartScene()
+void SceneManager::InitScene()
 {
-	// 開いているシーンのロード処理を呼ぶ
-	switch (g_NowScene)
-	{
-	case SCENE_TITLE:	// タイトル
-		StartTitleScene();
-		break;
-
-	case SCENE_PLAY:	// プレイ
-		StartPlayScene();
-		break;
-
-	case SCENE_GAME_CLEAR:	// ゲームクリア
-		StartGameClearScene();
-		break;
-
-	case SCENE_GAME_OVER:	// ゲームオーバー
-		StartGameOverScene();
-		break;
-	}
+	// シーンを初期化していロードへ
+	m_NowScene->Init();
+	m_State = LOAD;
 }
 
-void StepScene()
+void SceneManager::LoadScene()
 {
-	// 開いているシーンのステップ処理を呼ぶ
-	switch (g_NowScene)
-	{
-	case SCENE_TITLE:	// タイトル
-		StepTitleScene();
-		break;
-
-	case SCENE_PLAY:	// プレイ
-		StepPlayScene();
-		break;
-
-	case SCENE_GAME_CLEAR:	// ゲームクリア
-		StepGameClearScene();
-		break;
-
-	case SCENE_GAME_OVER:	// ゲームオーバー
-		StepGameOverScene();
-		break;
-	}
+	// ロードしてSTARTへ
+	m_NowScene->Load();
+	m_State = START;
 }
 
-void UpdateScene()
+void SceneManager::StartScene()
 {
-	// 開いているシーンの更新処理を呼ぶ
-	switch (g_NowScene)
-	{
-	case SCENE_TITLE:	// タイトル
-		UpdateTitleScene();
-		break;
-
-	case SCENE_PLAY:	// プレイ
-		UpdatePlayScene();
-		break;
-
-	case SCENE_GAME_CLEAR:	// ゲームクリア
-		UpdateGameClearScene();
-		break;
-
-	case SCENE_GAME_OVER:	// ゲームオーバー
-		UpdateGameOverScene();
-		break;
-	}
+	// STARTしてループへ
+	m_NowScene->Start();
+	m_State = LOOP;
 }
 
-void DrawScene()
+void SceneManager::LoopScene()
 {
-	// 開いているシーンの描画処理を呼ぶ
-	switch (g_NowScene)
-	{
-	case SCENE_TITLE:	// タイトル
-		DrawTitleScene();
-		break;
-
-	case SCENE_PLAY:	// プレイ
-		DrawPlayScene();
-		break;
-
-	case SCENE_GAME_CLEAR:	// ゲームクリア
-		DrawGameClearScene();
-		break;
-
-	case SCENE_GAME_OVER:	// ゲームオーバー
-		DrawGameOverScene();
-		break;
-	}
+	// ループ処理を順番に行う
+	m_NowScene->Step();
+	m_NowScene->Update();
+	m_NowScene->Draw();
 }
 
-void FinScene()
+void SceneManager::FinScene()
 {
-	// 開いているシーンの終了処理を呼ぶ
-	switch (g_NowScene)
+	// シーンを終了する
+	m_NowScene->Fin();
+
+	// 終了したシーンを削除する
+	if (m_NowScene)
 	{
-	case SCENE_TITLE:	// タイトル
-		FinTitleScene();
-		break;
-
-	case SCENE_PLAY:	// プレイ
-		FinPlayScene();
-		break;
-
-	case SCENE_GAME_CLEAR:	// ゲームクリア
-		FinGameClearScene();
-		break;
-
-	case SCENE_GAME_OVER:	// ゲームオーバー
-		FinGameOverScene();
-		break;
+		delete m_NowScene;
 	}
+
+	// 次のシーンを生成する
+	CreateScene(m_NextScene);
+
+	// 初期化状態に戻す
+	m_State = INIT;
 }
 
-void ChangeScene(Scene scene)
+void SceneManager::CreateScene(SceneType type)
 {
-	// 次に遷移するシーンを設定
-	g_NextScene = scene;
+	// 引数で渡されたシーンを生成して管理変数に保存する
+	switch (type)
+	{
+	case TITLE: m_NowScene = new TitleScene; break;
 
-	// シーンのループを終了させる
-	g_IsLoopEnd = true;
+	case PLAY: m_NowScene = new PlayScene; break;
+
+	case CLEAR: m_NowScene = new GameClearScene; break;
+
+	case OVER:  m_NowScene = new GameOverScene; break;
+	}
 }

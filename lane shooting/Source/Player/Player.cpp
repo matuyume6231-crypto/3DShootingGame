@@ -1,21 +1,28 @@
 #include "Player.h"
 #include "DxLib.h"
+#include "../Collision/CollisionManager.h"
+#include "../Collision/CollisionAABB.h"
+#include "../Input/Input.h"
 
-// レーン位置
-static float lanePos[3] = { -5.0f, 0.0f, 5.0f };
 
-// プレイヤー本体
-static Player player;
+
+#define PLAYER_WIDTH	1.0f
+#define PLAYER_HEIGHT	1.0f
+#define PLAYER_DEPTH	1.0f
 
 // コンストラクタ
 Player::Player()
 {
     m_Handle = 0;
-    player.lane = 1; // 中央
-    player.x = lanePos[player.lane];
-    player.y = 0.0f;
-    player.z = 0.0f;
-    //m_Pos = VGet(0.0f, 1.0f, -3.0f);
+
+    m_Lane = 1; // 中央
+
+    m_LanePos[0] = -5.0f;
+    m_LanePos[1] = 0.0f;
+    m_LanePos[2] = 5.0f;
+
+    m_Pos = VGet(0.0f, 0.0f, 0.0f);
+	m_AABB = nullptr;
 }
 
 // デストラクタ
@@ -39,7 +46,10 @@ void Player::Load()
 
 void Player::Start()
 {
-
+	m_AABB = CollisionManager::GetInstance()->CreateAABB();
+	m_AABB->SetTargetPos(&m_Pos);
+	m_AABB->SetLocalPos(VGet(0.0f, 0.5f, 0.0f));
+	m_AABB->SetSize(VGet(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_DEPTH));
 }
 
 // ステップ
@@ -52,26 +62,44 @@ void Player::Step()
 // 更新
 void Player::Update()
 {
-    // 入力
-    if (CheckHitKey(KEY_INPUT_LEFT) && player.lane > 0)
-    {
-        player.lane--;
-    }
-    if (CheckHitKey(KEY_INPUT_RIGHT) && player.lane < 2)
-    {
-        player.lane++;
-    }
+	// 入力
+	if (Input::IsInputKey(Input::KEY_LEFT))
+	{
+		if (m_Lane > 0) m_Lane--;
+	}
 
-    // レーンに応じて位置更新
-    player.x = lanePos[player.lane];
+	if (Input::IsInputKey(Input::KEY_RIGHT))
+	{
+		if (m_Lane < 2) m_Lane++;
+	}
+
+	// レーン位置反映
+	m_Pos.x = m_LanePos[m_Lane];
+	m_Pos.y = 0.0f;
+	m_Pos.z = 0.0f;
 }
 
 // 描画
 void Player::Draw()
 {
+	MV1SetPosition(m_Handle, m_Pos);
 	// 3Dモデルを描画する
 	MV1DrawModel(m_Handle);
+}
 
-	// 座標を描画する
-	//DrawFormatString(0, 0, GetColor(255, 255, 255), "座標[%f, %f, %f]", m_Pos.x, m_Pos.y, m_Pos.z);
+void Player::Fin()
+{
+	if (m_AABB)
+	{
+		// CollisionManager側が管理しているので
+		// m_AABB自体は削除しなくてOKな設計
+		// ただしポインタは無効化する
+		m_AABB = nullptr;
+	}
+
+	if (m_Handle != 0)
+	{
+		MV1DeleteModel(m_Handle);
+		m_Handle = 0;
+	}
 }

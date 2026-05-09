@@ -1,10 +1,17 @@
 #pragma once
+#include "../SceneBase.h"
 
-// 関数のプロトタイプ宣言
-void InitGameOverScene();
-void LoadGameOverScene();	
-void StartGameOverScene();
-void StepGameOverScene();
-void UpdateGameOverScene();
-void DrawGameOverScene();
-void FinGameOverScene();
+class GameOverScene : public SceneBase
+{
+public:
+    GameOverScene();
+    ~GameOverScene();
+
+    void Init() override;
+    void Load() override;
+    void Start() override;
+    void Step() override;
+    void Update() override;
+    void Draw() override;
+    void Fin() override;
+};

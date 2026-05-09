@@ -1,36 +1,52 @@
 #include "Stage.h"
-#include "DxLib.h"
 
-static float scroll = 0.0f;
+#define DEFAULT_POS VGet(0.0f, 0.0f, 0.0f)
 
-void InitStage()
+
+// コンストラクタ
+Stage::Stage()
 {
-    scroll = 0.0f;
+	m_Handle = 0;
+	m_Pos = VGet(0.0f, 0.0f, 0.0f);
 }
 
-void UpdateStage()
+// デストラクタ
+Stage::~Stage()
 {
-    // 前に進んでいるように見せる
-    scroll += 5.0f;
-    if (scroll > 100) scroll = 0;
+	Fin();
 }
 
-void DrawStage()
+void Stage::Init()
 {
-    int centerX = 640;
 
-    // 床（簡易）
-    DrawBox(0, 400, 1280, 720, GetColor(50, 50, 50), TRUE);
-
-    // レーン線（スクロール演出）
-    for (int i = 0; i < 10; i++)
-    {
-        int y = 400 + (int)(i * 40 + scroll) % 400;
-
-        // 左レーン境界
-        DrawLine(centerX - 100, y, centerX - 100, y + 20, GetColor(255, 255, 255));
-
-        // 右レーン境界
-        DrawLine(centerX + 100, y, centerX + 100, y + 20, GetColor(255, 255, 255));
-    }
 }
+
+void Stage::Load()
+{
+	m_Handle = MV1LoadModel("Data/Stage/Stage.x");
+}
+
+void Stage::Start()
+{
+	m_Pos = DEFAULT_POS;
+}
+
+void Stage::Step()
+{
+}
+
+void Stage::Update()
+{
+	MV1SetPosition(m_Handle, m_Pos);
+}
+
+void Stage::Draw()
+{
+	MV1DrawModel(m_Handle);
+}
+
+void Stage::Fin()
+{
+	MV1DeleteModel(m_Handle);
+}
+

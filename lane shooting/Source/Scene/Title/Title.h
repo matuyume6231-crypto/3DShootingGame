@@ -1,10 +1,20 @@
 #pragma once
+#include "../SceneBase.h"
 
-// 関数のプロトタイプ宣言
-void InitTitleScene();
-void LoadTitleScene();
-void StartTitleScene();
-void StepTitleScene();
-void UpdateTitleScene();
-void DrawTitleScene();
-void FinTitleScene();
+class TitleScene : public SceneBase
+{
+public:
+	TitleScene();	// コンストラクタ
+	~TitleScene();	// デストラクタ
+
+public:
+	void Init() override;
+	void Load() override;
+	void Start() override;
+	void Step() override;
+	void Update() override;
+	void Draw() override;
+	void Fin() override;
+};
+
+

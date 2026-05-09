@@ -31,6 +31,21 @@
     <Filter Include="Source\Stage">
       <UniqueIdentifier>{28bfd176-c802-4264-bde7-918f4977e4cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{5db5f347-b05a-430e-879d-ab1bee4d5331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FPS">
+      <UniqueIdentifier>{099d2d54-c8b5-4c45-b4cb-686d23783f74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{cd548733-84b4-4bfb-9ff6-0c4af2c59aa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Collision">
+      <UniqueIdentifier>{7a86e7b5-f1f6-4ab1-9e1d-00dd63164447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\MyMath">
+      <UniqueIdentifier>{af16f3b4-f38c-4fd1-ae15-470329c1e9b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -57,6 +72,48 @@
     <ClCompile Include="Source\Stage\Stage.cpp">
       <Filter>Source\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player\PlayerManager.cpp">
+      <Filter>Source\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bullet\Bullet.cpp">
+      <Filter>Source\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\Input.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\SceneBase.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FPS\FPS.cpp">
+      <Filter>Source\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera\Camera.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera\CameraBase.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera\CameraManager.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collision\CollisionSphere.cpp">
+      <Filter>Source\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collision\CollisionManager.cpp">
+      <Filter>Source\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collision\CollisionAABB.cpp">
+      <Filter>Source\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MyMath\MyMath.cpp">
+      <Filter>Source\MyMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyManager.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyBase.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -79,6 +136,54 @@
     </ClInclude>
     <ClInclude Include="Source\Stage\Stage.h">
       <Filter>Source\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\PlayerManager.h">
+      <Filter>Source\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet\Bullet.h">
+      <Filter>Source\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Input.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\SceneParameter.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\SceneBase.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FPS\FPS.h">
+      <Filter>Source\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera\Camera.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera\CameraBase.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera\CameraManager.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collision\CollisionSphere.h">
+      <Filter>Source\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collision\CollisionParameter.h">
+      <Filter>Source\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collision\CollisionManager.h">
+      <Filter>Source\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collision\CollisionAABB.h">
+      <Filter>Source\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MyMath\MyMath.h">
+      <Filter>Source\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyManager.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyBase.h">
+      <Filter>Source\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

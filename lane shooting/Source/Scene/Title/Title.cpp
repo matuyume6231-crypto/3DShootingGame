@@ -1,37 +1,53 @@
+#include "DxLib.h"
 #include "Title.h"
 #include "../SceneManager.h"
-#include "DxLib.h"
+#include "../../Input/Input.h"
 
-void InitTitleScene()
+TitleScene::TitleScene() : SceneBase()
 {
+
 }
 
-void LoadTitleScene()
+TitleScene::~TitleScene()
 {
+
 }
 
-void StartTitleScene()
+void TitleScene::Init()
 {
+
 }
 
-void StepTitleScene()
+void TitleScene::Load()
 {
-    // 入力
-    if (CheckHitKey(KEY_INPUT_RETURN))
-    {
-        ChangeScene(SCENE_PLAY);
-    }
+
 }
 
-void UpdateTitleScene()
+void TitleScene::Start()
 {
+
 }
 
-void DrawTitleScene()
+void TitleScene::Step()
 {
-    DrawString(500, 300, "TITLE - PRESS ENTER", GetColor(255, 255, 255));
+	// Zキーでプレイシーンへ
+	if (Input::IsTriggerKey(Input::KEY_Z))
+	{
+		SceneManager::GetInstance()->ChangeScene(PLAY);
+	}
 }
 
-void FinTitleScene()
+void TitleScene::Update()
 {
+
+}
+
+void TitleScene::Draw()
+{
+	DrawString(0, 0, "タイトルシーン", GetColor(255, 255, 255));
+}
+
+void TitleScene::Fin()
+{
+
 }

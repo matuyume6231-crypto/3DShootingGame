@@ -36,11 +36,11 @@ void PlayScene::Init()
 	m_ShotTimer = 0.0f;
 
 	// 床
-	m_Stage = new Stage;
+	//m_Stage = new Stage;
 
 	// ブロック
-	BlockManager::CreateInstance();
-	BlockManager::GetInstance()->Init();
+	//BlockManager::CreateInstance();
+	//BlockManager::GetInstance()->Init();
 
 	// 敵
 	EnemyManager::CreateInstance();
@@ -53,7 +53,7 @@ void PlayScene::Load()
 	CameraManager::GetInstance()->Load();
 	EnemyManager::GetInstance()->Load();
 
-	m_Stage->Load();
+	//m_Stage->Load();
 }
 
 void PlayScene::Start()
@@ -62,7 +62,7 @@ void PlayScene::Start()
 	CameraManager::GetInstance()->Start();
 	EnemyManager::GetInstance()->Start();
 
-	m_Stage->Start();
+	//m_Stage->Start();
 
 	// 敵生成
 	EnemyManager* enemyManager = EnemyManager::GetInstance();
@@ -78,8 +78,8 @@ void PlayScene::Step()
 	PlayerManager::GetInstance()->Step();
 	EnemyManager::GetInstance()->Step();
 	camera->Step();
-	m_Stage->Step();
-	BlockManager::GetInstance()->Step();
+	//m_Stage->Step();
+	//BlockManager::GetInstance()->Step();
 
 	// クールタイム更新
 	if (m_ShotTimer > 0.0f)
@@ -121,8 +121,8 @@ void PlayScene::Update()
 	PlayerManager::GetInstance()->Update();
 	EnemyManager::GetInstance()->Update();
 	camera->Update();
-	m_Stage->Update();
-	BlockManager::GetInstance()->Update();
+	//m_Stage->Update();
+	//BlockManager::GetInstance()->Update();
 
 	for (auto bullet : m_Bullets)
 	{
@@ -164,8 +164,8 @@ void PlayScene::Draw()
 	PlayerManager::GetInstance()->Draw();
 	EnemyManager::GetInstance()->Draw();
 	CameraManager::GetInstance()->Draw();
-	m_Stage->Draw();
-	BlockManager::GetInstance()->Draw();
+	//m_Stage->Draw();
+	//BlockManager::GetInstance()->Draw();
 
 	Input::Draw();
 	for (auto bullet : m_Bullets)
@@ -180,7 +180,7 @@ void PlayScene::Fin()
 {
 	PlayerManager::DeleteInstance();
 	CameraManager::DeleteInstance();
-	BlockManager::DeleteInstance();
+	//BlockManager::DeleteInstance();
 	EnemyManager::DeleteInstance();
 	CollisionManager::DeleteInstance();
 	for (auto bullet : m_Bullets)
@@ -188,5 +188,5 @@ void PlayScene::Fin()
 		delete bullet;
 	}
 	m_Bullets.clear();
-	delete m_Stage;
+	//delete m_Stage;
 }

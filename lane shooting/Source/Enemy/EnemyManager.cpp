@@ -1,5 +1,5 @@
 #include "EnemyManager.h"
-
+#include "YellowEnemy/YellowEnemy.h"
 
 EnemyManager* EnemyManager::m_Instance = nullptr;
 
@@ -55,6 +55,21 @@ void EnemyManager::Update()
 	for (auto enemy : m_EnemyList)
 	{
 		enemy->Update();
+	}
+
+	// 死亡フラグが立っているエネミーをリストから削除する
+	for (auto it = m_EnemyList.begin(); it != m_EnemyList.end(); )
+	{
+		// 死亡フラグが立っている場合は削除する
+		if ((*it)->m_Dead)
+		{
+			delete* it;
+			it = m_EnemyList.erase(it);
+		}
+		else
+		{
+			++it;
+		}
 	}
 }
 

@@ -7,7 +7,7 @@
 #define CAMERA_NEAR_CLIP 0.01f
 #define CAMERA_FAR_CLIP 1000.0f
 
-#define PLAYER_DISTANCE -7.0f
+#define PLAYER_DISTANCE -8.0f
 #define ROTATION_SPEED 0.025f
 
 #define X_ROTATION_MAX (DX_PI_F * 0.49f)
@@ -38,6 +38,8 @@ void Camera::Start()
 
 	// アップベクトル設定
 	m_UpVec = VGet(0.0f, 1.0f, 0.0f);
+
+
 
 	// 追従するプレイヤー
 	m_TargetPlayer = PlayerManager::GetInstance()->GetPlayer();
@@ -89,7 +91,7 @@ void Camera::Update()
 	MATRIX playerOrigin = MyMath::MatTranslation(vecOrigin);
 
 	// ② プレイヤーの手前に移動する平行移動行列を用意
-	MATRIX distans = MyMath::MatTranslation(VGet(0.0f, 0.0f, PLAYER_DISTANCE));
+	MATRIX distans = MyMath::MatTranslation(VGet(0.0f, 8.0f, PLAYER_DISTANCE));
 
 	// ③ カメラのピッチ行列
 	MATRIX pitch = MyMath::MatRotationPitch(m_Rot.x);
@@ -109,7 +111,7 @@ void Camera::Update()
 	m_Pos = MyMath::MatTransform(cameraMat, playerPos);
 
 	// 注視点はプレイヤーの座標
-	m_Target = playerPos;
+	m_Target = VAdd(playerPos, VGet(0.0f, 2.0f, 0.0f));
 
 	SetCameraPositionAndTargetAndUpVec(m_Pos, m_Target, m_UpVec);
 }

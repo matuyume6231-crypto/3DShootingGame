@@ -12,7 +12,6 @@ CameraManager::CameraManager()
 	{
 		m_Camera[i] = nullptr;
 	}
-	m_IsDebugCamera = false;
 }
 
 // デストラクタ

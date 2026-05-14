@@ -17,9 +17,9 @@ Player::Player()
 
     m_Lane = 1; // ’†‰›
 
-    m_LanePos[0] = -5.0f;
+    m_LanePos[0] = -10.0f;
     m_LanePos[1] = 0.0f;
-    m_LanePos[2] = 5.0f;
+    m_LanePos[2] = 10.0f;
 
     m_Pos = VGet(0.0f, 0.0f, 0.0f);
 	m_AABB = nullptr;

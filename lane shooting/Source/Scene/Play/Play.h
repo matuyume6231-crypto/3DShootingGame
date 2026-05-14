@@ -5,6 +5,7 @@
 #include <vector>
 
 class Bullet;
+class EnemySpawnManager;
 
 class PlayScene : public SceneBase
 {
@@ -26,4 +27,6 @@ private:
     std::vector<Bullet*> m_Bullets;
     float m_ShotTimer;
     const float SHOT_COOLDOWN = 0.2f;
+
+    EnemySpawnManager* m_SpawnManager;
 };

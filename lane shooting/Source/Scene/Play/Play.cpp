@@ -9,6 +9,7 @@
 #include "../../Enemy/EnemyManager.h"
 #include "../../Collision/CollisionParameter.h"
 #include "../../Collision/CollisionAABB.h"
+#include "../../Enemy/EnemySpawnManager.h"
 
 PlayScene::PlayScene() : SceneBase()
 {
@@ -45,6 +46,8 @@ void PlayScene::Init()
 	// “G
 	EnemyManager::CreateInstance();
 	EnemyManager::GetInstance()->Init();
+	m_SpawnManager = new EnemySpawnManager;
+	m_SpawnManager->Init();
 }
 
 void PlayScene::Load()
@@ -67,8 +70,6 @@ void PlayScene::Start()
 	// “G¶¬
 	EnemyManager* enemyManager = EnemyManager::GetInstance();
 	EnemyBase* enemy = enemyManager->CreateEnemy(YELLOW_ENEMY);
-	//enemy->SetPos(VGet(3.0f, 1.0f, 0.0f));
-
 }
 
 void PlayScene::Step()
@@ -120,6 +121,7 @@ void PlayScene::Update()
 
 	PlayerManager::GetInstance()->Update();
 	EnemyManager::GetInstance()->Update();
+	m_SpawnManager->Update();
 	camera->Update();
 	//m_Stage->Update();
 	//BlockManager::GetInstance()->Update();
@@ -182,6 +184,8 @@ void PlayScene::Fin()
 	CameraManager::DeleteInstance();
 	//BlockManager::DeleteInstance();
 	EnemyManager::DeleteInstance();
+	delete m_SpawnManager;
+	m_SpawnManager = nullptr;
 	CollisionManager::DeleteInstance();
 	for (auto bullet : m_Bullets)
 	{

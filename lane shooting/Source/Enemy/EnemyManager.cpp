@@ -80,16 +80,6 @@ void EnemyManager::Draw()
 	{
 		enemy->Draw();
 	}
-
-	m_EnemyList.remove_if([](EnemyBase* enemy)
-		{
-			if (enemy->m_Dead)
-			{
-				delete enemy;
-				return true;
-			}
-			return false;
-		});
 }
 
 void EnemyManager::Fin()

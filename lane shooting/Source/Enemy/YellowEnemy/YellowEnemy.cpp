@@ -48,6 +48,9 @@ EnemyBase* YellowEnemy::Clone()
 	// クローン用のオブジェクトを生成
 	YellowEnemy* clone = new YellowEnemy;
 
+	// クローン元と同じ値をセットしておく
+	clone->m_Dead = false;
+
 	// 画像はDuplicateする必要がある
 	clone->m_Handle = MV1DuplicateModel(m_Handle);
 

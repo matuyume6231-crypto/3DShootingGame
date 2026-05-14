@@ -63,12 +63,14 @@ void Player::Step()
 void Player::Update()
 {
 	// “ü—Í
-	if (Input::IsInputKey(Input::KEY_LEFT))
+	// ¶‚ğ‰Ÿ‚µ‚½uŠÔ
+	if (Input::IsTriggerKey(Input::KEY_LEFT))
 	{
 		if (m_Lane > 0) m_Lane--;
 	}
 
-	if (Input::IsInputKey(Input::KEY_RIGHT))
+	// ‰E‚ğ‰Ÿ‚µ‚½uŠÔ
+	if (Input::IsTriggerKey(Input::KEY_RIGHT))
 	{
 		if (m_Lane < 2) m_Lane++;
 	}

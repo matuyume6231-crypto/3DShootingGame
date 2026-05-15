@@ -6,14 +6,14 @@ EnemyBase::EnemyBase()
 	m_Handle = 0;
 	m_Pos = VGet(0.0f, 0.0f, 0.0f);
 	m_Rot = VGet(0.0f, 0.0f, 0.0f);
-	m_Move = VGet(0.0f, 0.0f, 0.1f); // 手前方向に進む
+	m_Move = VGet(0.0f, 0.0f, -0.1f); // 手前方向(-Z)に進む
 	m_AABB = nullptr;
 	m_Dead = false;
 	// レーン初期化
 	m_Lane = 1;
-	m_LanePos[0] = -5.0f;
+	m_LanePos[0] = -10.0f;
 	m_LanePos[1] = 0.0f;
-	m_LanePos[2] = 5.0f;
+	m_LanePos[2] = 10.0f;
 }
 
 EnemyBase::~EnemyBase()

@@ -66,10 +66,6 @@ void PlayScene::Start()
 	EnemyManager::GetInstance()->Start();
 
 	//m_Stage->Start();
-
-	// 敵生成
-	EnemyManager* enemyManager = EnemyManager::GetInstance();
-	EnemyBase* enemy = enemyManager->CreateEnemy(YELLOW_ENEMY);
 }
 
 void PlayScene::Step()
@@ -107,12 +103,6 @@ void PlayScene::Step()
 			m_ShotTimer = SHOT_COOLDOWN;
 		}
 	}
-
-	// 弾更新
-	for (auto bullet : m_Bullets)
-	{
-		bullet->Update();
-	}
 }
 
 void PlayScene::Update()
@@ -121,11 +111,12 @@ void PlayScene::Update()
 
 	PlayerManager::GetInstance()->Update();
 	EnemyManager::GetInstance()->Update();
-	m_SpawnManager->Update();
+	m_SpawnManager->Update(1.0f / 60.0f);
 	camera->Update();
 	//m_Stage->Update();
 	//BlockManager::GetInstance()->Update();
-
+	
+	// 弾更新
 	for (auto bullet : m_Bullets)
 	{
 		bullet->Update();
@@ -150,13 +141,56 @@ void PlayScene::Update()
 				{
 					// 弾を消す
 					bullet->Fin();
+					bullet->Destroy();
 
 					// 敵を死亡扱い
 					enemy->m_Dead = true;
-
 					break; // この弾は終了
 				}
 			}
+		}
+	}
+
+	// プレイヤー取得
+	Player* player = PlayerManager::GetInstance()->GetPlayer();
+
+	// プレイヤー死亡済みならスキップ
+	if (!player->IsDead())
+	{
+		for (auto enemy : enemies)
+		{
+			// 敵死亡済みならスキップ
+			if (enemy->m_Dead) continue;
+
+			// 当たり判定存在チェック
+			if (player->GetAABB() && enemy->GetAABB())
+			{
+				HitResultAABB result =
+					player->GetAABB()->CheckAABB(enemy->GetAABB());
+
+				if (result.isHit)
+				{
+					// プレイヤーダメージ
+					player->Damage(1);
+
+					// 敵も消す
+					enemy->m_Dead = true;
+				}
+			}
+		}
+	}
+
+	// 死亡弾削除
+	for (auto it = m_Bullets.begin(); it != m_Bullets.end(); )
+	{
+		if ((*it)->IsDead())
+		{
+			delete* it;
+			it = m_Bullets.erase(it);
+		}
+		else
+		{
+			++it;
 		}
 	}
 }

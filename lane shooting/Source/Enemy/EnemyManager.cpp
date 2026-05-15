@@ -105,6 +105,8 @@ EnemyBase* EnemyManager::CreateEnemy(EnemyType type)
 	// タイプに合わせたエネミーをクローンで生成
 	EnemyBase* enemy = m_OriginalEnemy[type]->Clone();
 
+	enemy->Start();
+
 	// 生成したエネミーを管理用リストに追加
 	m_EnemyList.push_back(enemy);
 

@@ -64,3 +64,8 @@ void Bullet::Fin()
 	}
 	m_AABB = nullptr;
 }
+
+void Bullet::Destroy()
+{
+	m_Active = false;
+}

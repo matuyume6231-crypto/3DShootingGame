@@ -13,7 +13,7 @@ public:
 	void Update();
 	void Draw();
 	void Fin();
-
+	void Destroy();
 	void Shot(VECTOR pos);
 
 	bool IsActive() const { return m_Active; }

@@ -29,6 +29,11 @@ public:
 	bool m_Dead; // Ž€–Sƒtƒ‰ƒO
 	CollisionAABB* GetAABB() { return m_AABB; }
 
+	
+public:
+	void SetLane(int lane) { m_Lane = lane; }
+	int GetLane() const { return m_Lane; }
+
 protected:
 	int m_Handle;
 	VECTOR m_Pos;

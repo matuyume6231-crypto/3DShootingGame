@@ -32,7 +32,7 @@ void YellowEnemy::Start()
 	m_AABB->SetSize(VGet(1.0f, 1.0f, 1.0f));
 
 	// è‘O‚Éi‚Ş‘¬“x
-	m_Move = VGet(0.0f, 0.0f, 0.1f);
+	m_Move = VGet(0.0f, 0.0f, -0.1f);
 
 	m_Dead = false;
 }

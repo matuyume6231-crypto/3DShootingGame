@@ -10,6 +10,7 @@
 #include "../../Collision/CollisionParameter.h"
 #include "../../Collision/CollisionAABB.h"
 #include "../../Enemy/EnemySpawnManager.h"
+#include "../SceneManager.h"
 
 PlayScene::PlayScene() : SceneBase()
 {
@@ -110,6 +111,15 @@ void PlayScene::Update()
 	CameraManager* camera = CameraManager::GetInstance();
 
 	PlayerManager::GetInstance()->Update();
+
+	Player* player = PlayerManager::GetInstance()->GetPlayer();
+
+	if (player->IsDead())
+	{
+		SceneManager::GetInstance()->ChangeScene(OVER);
+		return;
+	}
+
 	EnemyManager::GetInstance()->Update();
 	m_SpawnManager->Update(1.0f / 60.0f);
 	camera->Update();
@@ -143,16 +153,16 @@ void PlayScene::Update()
 					bullet->Fin();
 					bullet->Destroy();
 
-					// 敵を死亡扱い
-					enemy->m_Dead = true;
+					// 敵を消す(一部敵は消えない)
+					if (enemy->CanDestroyByBullet())
+					{
+						enemy->m_Dead = true;
+					}
 					break; // この弾は終了
 				}
 			}
 		}
 	}
-
-	// プレイヤー取得
-	Player* player = PlayerManager::GetInstance()->GetPlayer();
 
 	// プレイヤー死亡済みならスキップ
 	if (!player->IsDead())
@@ -210,6 +220,42 @@ void PlayScene::Draw()
 	}
 
 	CollisionManager::GetInstance()->Draw();
+
+	// PlayerのHP表示
+	Player* player = PlayerManager::GetInstance()->GetPlayer();
+
+	DrawFormatString(
+		20,
+		20,
+		GetColor(255, 255, 255),
+		"HP : %d",
+		player->GetHP()
+	);
+
+	// レーンの線を描画
+	DrawLine3D(
+		VGet(-15.0f, 0.01f, -50.0f),
+		VGet(-15.0f, 0.01f, 100.0f),
+		GetColor(255, 255, 255)
+	);
+
+	DrawLine3D(
+		VGet(-5.0f, 0.01f, -50.0f),
+		VGet(-5.0f, 0.01f, 100.0f),
+		GetColor(255, 255, 255)
+	);
+
+	DrawLine3D(
+		VGet(5.0f, 0.01f, -50.0f),
+		VGet(5.0f, 0.01f, 100.0f),
+		GetColor(255, 255, 255)
+	);
+
+	DrawLine3D(
+		VGet(15.0f, 0.01f, -50.0f),
+		VGet(15.0f, 0.01f, 100.0f),
+		GetColor(255, 255, 255)
+	);
 }
 
 void PlayScene::Fin()

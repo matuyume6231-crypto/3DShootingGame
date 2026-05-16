@@ -7,6 +7,7 @@ struct SpawnData
 	float time;      // 何秒後に出すか
 	EnemyType type;  // 敵タイプ
 	int lane;        // レーン（0,1,2）
+	float moveSpeed; // 移動速度
 };
 
 class EnemySpawnManager

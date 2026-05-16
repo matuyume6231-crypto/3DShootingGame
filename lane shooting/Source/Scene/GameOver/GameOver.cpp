@@ -39,6 +39,9 @@ void GameOverScene::Update()
 void GameOverScene::Draw()
 {
     DrawString(600, 400, "GAME OVER", GetColor(255, 0, 0));
+    DrawString(520, 500,
+        "PRESS Z KEY",
+        GetColor(255, 255, 255));
 }
 
 void GameOverScene::Fin()

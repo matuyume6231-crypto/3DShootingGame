@@ -22,7 +22,10 @@ public:
 
 	// 複製、量産するためのクローン関数
 	virtual EnemyBase* Clone() = 0;
-
+	// 速度設定関数
+	void SetMoveSpeed(float speed);
+	// 弾で破壊できるか
+	virtual bool CanDestroyByBullet() { return true; }
 public:
 
 	void SetPos(VECTOR pos) { m_Pos = pos; }

@@ -5,6 +5,7 @@
 enum EnemyType
 {
 	YELLOW_ENEMY,
+	OBSTACLE,
 	ENEMY_TYPE_MAX,
 	ENEMY_TYPE_NONE = -1
 };

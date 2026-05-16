@@ -55,3 +55,8 @@ void EnemyBase::Fin()
 		m_Handle = 0;
 	}
 }
+
+void EnemyBase::SetMoveSpeed(float speed)
+{
+	m_Move.z = speed;
+}

@@ -32,17 +32,23 @@ public:
 	bool m_Dead; // 死亡フラグ
 	CollisionAABB* GetAABB() { return m_AABB; }
 
-	
 public:
 	void SetLane(int lane) { m_Lane = lane; }
 	int GetLane() const { return m_Lane; }
 
+public:
+	void Damage(int damage);
+
+	int GetHP() const { return m_HP; }
+	bool IsDead() const { return m_Dead; }
+
 protected:
 	int m_Handle;
+	int m_HP;
 	VECTOR m_Pos;
 	VECTOR m_Rot;
 	VECTOR m_Move;   // 移動速度
-	// 追加
+	// レーン管理用の変数
 	int m_Lane;
 	float m_LanePos[3];
 

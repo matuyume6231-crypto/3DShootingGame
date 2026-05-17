@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "YellowEnemy/YellowEnemy.h"
 #include "Obstacle/Obstacle.h"
+#include "Boss/Boss.h"
 
 EnemyManager* EnemyManager::m_Instance = nullptr;
 
@@ -22,6 +23,7 @@ void EnemyManager::Init()
 	// クローン元のエネミーを生成する
 	m_OriginalEnemy[YELLOW_ENEMY] = new YellowEnemy;
 	m_OriginalEnemy[OBSTACLE] = new Obstacle;
+	m_OriginalEnemy[BOSS_ENEMY] = new Boss;
 }
 
 void EnemyManager::Load()

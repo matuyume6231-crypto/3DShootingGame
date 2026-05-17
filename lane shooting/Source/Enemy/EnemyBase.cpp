@@ -9,6 +9,7 @@ EnemyBase::EnemyBase()
 	m_Move = VGet(0.0f, 0.0f, -0.1f); // è‘O•ûŒü(-Z)‚Éi‚Ş
 	m_AABB = nullptr;
 	m_Dead = false;
+	m_HP = 1;
 	// ƒŒ[ƒ“‰Šú‰»
 	m_Lane = 1;
 	m_LanePos[0] = -10.0f;
@@ -59,4 +60,17 @@ void EnemyBase::Fin()
 void EnemyBase::SetMoveSpeed(float speed)
 {
 	m_Move.z = speed;
+}
+
+void EnemyBase::Damage(int damage)
+{
+	if (m_Dead) return;
+
+	m_HP -= damage;
+
+	if (m_HP <= 0)
+	{
+		m_HP = 0;
+		m_Dead = true;
+	}
 }

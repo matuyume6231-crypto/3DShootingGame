@@ -36,6 +36,7 @@ void Obstacle::Start()
 	m_Move = VGet(0.0f, 0.0f, -0.1f);
 
 	m_Dead = false;
+	m_HP = 99;
 }
 
 void Obstacle::Step()

@@ -11,6 +11,7 @@
 #include "../../Collision/CollisionAABB.h"
 #include "../../Enemy/EnemySpawnManager.h"
 #include "../SceneManager.h"
+#include "../../Enemy/Boss/Boss.h"
 
 PlayScene::PlayScene() : SceneBase()
 {
@@ -120,6 +121,20 @@ void PlayScene::Update()
 		return;
 	}
 
+	// ƒ{ƒX‚ª‘S–Å‚µ‚Ä‚½‚çƒNƒŠƒA
+	auto& enemies = EnemyManager::GetInstance()->GetEnemyList();
+	for (auto enemy : enemies)
+	{
+		Boss* boss = dynamic_cast<Boss*>(enemy);
+
+		if (boss && boss->IsDead())
+		{
+			SceneManager::GetInstance()->ChangeScene(CLEAR);
+
+			return;
+		}
+	}
+
 	EnemyManager::GetInstance()->Update();
 	m_SpawnManager->Update(1.0f / 60.0f);
 	camera->Update();
@@ -131,8 +146,6 @@ void PlayScene::Update()
 	{
 		bullet->Update();
 	}
-	// Õ“Ëˆ—
-	auto& enemies = EnemyManager::GetInstance()->GetEnemyList();
 
 	for (auto bullet : m_Bullets)
 	{
@@ -156,7 +169,7 @@ void PlayScene::Update()
 					// “G‚ğÁ‚·(ˆê•”“G‚ÍÁ‚¦‚È‚¢)
 					if (enemy->CanDestroyByBullet())
 					{
-						enemy->m_Dead = true;
+						enemy->Damage(1);
 					}
 					break; // ‚±‚Ì’e‚ÍI—¹
 				}
@@ -185,6 +198,34 @@ void PlayScene::Update()
 
 					// “G‚àÁ‚·
 					enemy->m_Dead = true;
+				}
+			}
+		}
+	}
+
+	// Boss’e‚ÆPlayerÕ“Ë
+	for (auto enemy : enemies)
+	{
+		Boss* boss = dynamic_cast<Boss*>(enemy);
+
+		if (!boss) continue;
+
+		for (auto bullet : boss->GetBullets())
+		{
+			if (!bullet->IsActive()) continue;
+
+			if (player->GetAABB() && bullet->GetAABB())
+			{
+				HitResultAABB result =
+					player->GetAABB()->CheckAABB(
+						bullet->GetAABB()
+					);
+
+				if (result.isHit)
+				{
+					player->Damage(1);
+
+					bullet->Destroy();
 				}
 			}
 		}

@@ -26,6 +26,7 @@ void EnemySpawnManager::Init()
 		{6.0f, YELLOW_ENEMY, 2, -0.1},
 		{5.0f, OBSTACLE, 0, -0.15f},
 		{8.0f, YELLOW_ENEMY, 1, -0.2},
+		{30.0f, BOSS_ENEMY, 1, 0.0f},
 	};
 }
 
@@ -45,7 +46,15 @@ void EnemySpawnManager::Update(float deltaTime)
 			float lanePos[3] = { -10.0f, 0.0f, 10.0f };
 
 			enemy->SetLane(data.lane);
-			enemy->SetPos(VGet(lanePos[data.lane], 0.0f, 50.0f));
+			if (data.type == BOSS_ENEMY)
+			{
+				enemy->SetPos(VGet(0.0f, 0.0f, 40.0f));
+			}
+			else
+			{
+				// ‚à‚µif•ª‚ª‚¢‚ç‚È‚¢‚È‚çA‰º‚Ì•”•ª‚¾‚¯Žc‚µ‚Ä‚ ‚Æ‚ÍÁ‚µ‚Ä‚¢‚¢‚æ
+				enemy->SetPos(VGet(lanePos[data.lane], 0.0f, 50.0f));
+			}
 			enemy->SetMoveSpeed(data.moveSpeed);
 			m_NextIndex++;
 		}

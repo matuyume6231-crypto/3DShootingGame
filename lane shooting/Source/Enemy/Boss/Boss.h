@@ -28,4 +28,7 @@ public:
 private:
 	float m_ShotTimer;
 	std::vector<EnemyBullet*> m_Bullets;
+	bool m_WaitSecondShot;
+	float m_SecondShotTimer;
+	int m_SecondLane;
 };

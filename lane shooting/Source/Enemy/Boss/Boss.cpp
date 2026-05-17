@@ -36,10 +36,15 @@ void Boss::Start()
 
 	// HP
 	m_HP = 20;
-
 	m_Dead = false;
 
 	m_ShotTimer = 0.0f;
+
+	m_WaitSecondShot = false;
+
+	m_SecondShotTimer = 0.0f;
+
+	m_SecondLane = 0;
 }
 
 void Boss::Step()
@@ -53,18 +58,84 @@ void Boss::Update()
 	// ボス位置固定
 	m_Pos.z = 40.0f;
 
+	// 2発目の弾のタイマー更新
+	if (m_WaitSecondShot)
+	{
+		m_SecondShotTimer -= 1.0f / 60.0f;
+
+		if (m_SecondShotTimer <= 0.0f)
+		{
+			EnemyBullet* bullet = new EnemyBullet;
+
+			bullet->Init();
+
+			VECTOR shotPos = m_Pos;
+
+			shotPos.x = m_LanePos[m_SecondLane];
+
+			bullet->Shot(shotPos);
+
+			m_Bullets.push_back(bullet);
+
+			m_WaitSecondShot = false;
+		}
+	}
+
 	// タイマー更新
 	m_ShotTimer -= 1.0f / 60.0f;
 
 	if (m_ShotTimer <= 0.0f)
 	{
-		EnemyBullet* bullet = new EnemyBullet;
+		// 1～2発ランダム
+		int shotCount = rand() % 2 + 1;
 
-		bullet->Init();
+		// 2発目ディレイするか
+		bool delayShot = (rand() % 2 == 0);
 
-		bullet->Shot(m_Pos);
+		// 使用済みレーン管理
+		bool usedLane[3] = { false,false,false };
 
-		m_Bullets.push_back(bullet);
+		for (int i = 0; i < shotCount; i++)
+		{
+			int lane = 0;
+
+			// do-while文
+			// 普通のwhileは条件が最初から満たされていないとループに入らないが、
+			// do-whileは一度は必ずループに入る
+			// 未使用レーンを選ぶ
+			do
+			{
+				lane = rand() % 3;
+			} 
+			while (usedLane[lane]);
+
+			usedLane[lane] = true;
+
+			if (shotCount == 2 &&
+				i == 1 &&
+				delayShot)
+			{
+				m_WaitSecondShot = true;
+
+				m_SecondShotTimer = 0.3f;
+
+				m_SecondLane = lane;
+			}
+			else
+			{
+				EnemyBullet* bullet = new EnemyBullet;
+
+				bullet->Init();
+
+				VECTOR shotPos = m_Pos;
+
+				shotPos.x = m_LanePos[lane];
+
+				bullet->Shot(shotPos);
+
+				m_Bullets.push_back(bullet);
+			}
+		}
 
 		m_ShotTimer = 1.0f;
 	}

@@ -54,5 +54,3 @@ protected:
 
 	CollisionAABB* m_AABB;
 };
-
-

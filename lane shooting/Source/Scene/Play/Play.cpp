@@ -13,6 +13,7 @@
 #include "../SceneManager.h"
 #include "../../Enemy/Boss/Boss.h"
 #include "../../Skybox/Skybox.h"
+#include "../../Sound/SoundManager.h"
 
 PlayScene::PlayScene() : SceneBase()
 {
@@ -27,6 +28,10 @@ void PlayScene::Init()
 {
 	// コリジョン
 	CollisionManager::CreateInstance();
+
+	// サウンド
+	SoundManager::CreateInstance();
+	SoundManager::GetInstance()->Load();
 
 	// プレイヤー
 	PlayerManager::CreateInstance();
@@ -73,7 +78,7 @@ void PlayScene::Start()
 	PlayerManager::GetInstance()->Start();
 	CameraManager::GetInstance()->Start();
 	EnemyManager::GetInstance()->Start();
-
+	SoundManager::GetInstance()->PlayGameBGM();
 	//m_Stage->Start();
 }
 
@@ -110,6 +115,9 @@ void PlayScene::Step()
 			bullet->Shot(pos);
 
 			m_Bullets.push_back(bullet);
+
+			// 発射SE
+			SoundManager::GetInstance()->PlayShotSE();
 
 			m_ShotTimer = SHOT_COOLDOWN;
 		}
@@ -173,6 +181,8 @@ void PlayScene::Update()
 
 				if (result.isHit)
 				{
+					SoundManager::GetInstance()->PlayHitSE();
+
 					// 弾を消す
 					bullet->Fin();
 					bullet->Destroy();
@@ -318,6 +328,8 @@ void PlayScene::Fin()
 	CameraManager::DeleteInstance();
 	//BlockManager::DeleteInstance();
 	EnemyManager::DeleteInstance();
+	SoundManager::GetInstance()->StopBGM();
+	SoundManager::DeleteInstance();
 	delete m_SpawnManager;
 	m_SpawnManager = nullptr;
 	CollisionManager::DeleteInstance();

@@ -3,7 +3,7 @@
 #include "../Collision/CollisionManager.h"
 #include "../Collision/CollisionAABB.h"
 #include "../Input/Input.h"
-
+#include "../Sound/SoundManager.h"
 
 
 #define PLAYER_WIDTH	1.0f
@@ -136,6 +136,9 @@ void Player::Damage(int damage)
 {
 	// –³“G’†‚È‚çƒ_ƒ[ƒW‚ðŽó‚¯‚È‚¢
 	if (m_IsInvincible) return;
+
+	// ”í’eSE
+	SoundManager::GetInstance()->PlayDamageSE();
 
 	m_HP -= damage;
 

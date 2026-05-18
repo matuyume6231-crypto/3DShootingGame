@@ -9,7 +9,9 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// ウィンドウモードON
-	ChangeWindowMode(TRUE);
+	// ここをFALSEにするとフルスクリーンになります
+	// ここはTRUEににするとウィンドウモードになります
+	ChangeWindowMode(FALSE);
 	// 画面解像度の設定
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
 

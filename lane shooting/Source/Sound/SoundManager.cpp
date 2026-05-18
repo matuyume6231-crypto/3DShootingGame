@@ -20,16 +20,16 @@ SoundManager::~SoundManager()
 void SoundManager::Load()
 {
 	m_ShotSE =
-		LoadSoundMem("Data/Sound/SE/shot.wav");
+		LoadSoundMem("Data/Sound/SE/shot.ogg");
 
 	m_HitSE =
-		LoadSoundMem("Data/Sound/SE/hit.wav");
+		LoadSoundMem("Data/Sound/SE/hit.ogg");
 
 	m_DamageSE =
-		LoadSoundMem("Data/Sound/SE/damage.wav");
+		LoadSoundMem("Data/Sound/SE/damage.ogg");
 
 	m_GameBGM =
-		LoadSoundMem("Data/Sound/BGM/game.mp3");
+		LoadSoundMem("Data/Sound/BGM/play.ogg");
 }
 
 void SoundManager::Update()

@@ -4,6 +4,7 @@
 #include "../../Stage/Stage.h"
 #include <vector>
 
+class Skybox;
 class Bullet;
 class EnemySpawnManager;
 
@@ -23,7 +24,7 @@ public:
 
 private:
     Stage* m_Stage;
-
+    Skybox* m_Skybox;
     std::vector<Bullet*> m_Bullets;
     float m_ShotTimer;
     const float SHOT_COOLDOWN = 0.2f;

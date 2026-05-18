@@ -12,9 +12,11 @@
 #include "../../Enemy/EnemySpawnManager.h"
 #include "../SceneManager.h"
 #include "../../Enemy/Boss/Boss.h"
+#include "../../Skybox/Skybox.h"
 
 PlayScene::PlayScene() : SceneBase()
 {
+	m_Skybox = nullptr;
 }
 
 PlayScene::~PlayScene()
@@ -41,6 +43,9 @@ void PlayScene::Init()
 	// 床
 	//m_Stage = new Stage;
 
+	// 天球生成
+	m_Skybox = new Skybox;
+
 	// ブロック
 	//BlockManager::CreateInstance();
 	//BlockManager::GetInstance()->Init();
@@ -59,6 +64,8 @@ void PlayScene::Load()
 	EnemyManager::GetInstance()->Load();
 
 	//m_Stage->Load();
+	// 天球をロード
+	m_Skybox->Load("Data/Skybox/Skybox.x");
 }
 
 void PlayScene::Start()
@@ -79,6 +86,8 @@ void PlayScene::Step()
 	camera->Step();
 	//m_Stage->Step();
 	//BlockManager::GetInstance()->Step();
+	// 天球ステップ
+	m_Skybox->Step();
 
 	// クールタイム更新
 	if (m_ShotTimer > 0.0f)
@@ -138,6 +147,8 @@ void PlayScene::Update()
 	EnemyManager::GetInstance()->Update();
 	m_SpawnManager->Update(1.0f / 60.0f);
 	camera->Update();
+	// 天球更新
+	m_Skybox->Update();
 	//m_Stage->Update();
 	//BlockManager::GetInstance()->Update();
 	
@@ -248,6 +259,8 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
+	// 天球描画
+	m_Skybox->Draw();
 	PlayerManager::GetInstance()->Draw();
 	EnemyManager::GetInstance()->Draw();
 	CameraManager::GetInstance()->Draw();
@@ -314,4 +327,6 @@ void PlayScene::Fin()
 	}
 	m_Bullets.clear();
 	//delete m_Stage;
+	// 天球削除
+	delete m_Skybox;
 }

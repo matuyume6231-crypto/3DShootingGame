@@ -3,6 +3,9 @@
 #include "../SceneManager.h"
 #include "../../Input/Input.h"
 
+// GameClear画像
+int g_GameClearBG = 0;
+
 GameClearScene::GameClearScene() : SceneBase()
 {
 }
@@ -13,10 +16,14 @@ GameClearScene::~GameClearScene()
 
 void GameClearScene::Init()
 {
+    // 文字画像ハンドル初期化
+    g_GameClearBG = 0;
 }
 
 void GameClearScene::Load()
 {
+    // 背景ロード
+    g_GameClearBG = LoadGraph("Data/GameClear/GameClear.png");
 }
 
 void GameClearScene::Start()
@@ -37,9 +44,11 @@ void GameClearScene::Update()
 
 void GameClearScene::Draw()
 {
-    DrawString(600, 400, "GAME CLEAR!", GetColor(0, 255, 0));
+    DrawGraph(0, 0, g_GameClearBG, TRUE);
 }
 
 void GameClearScene::Fin()
 {
+    // 文字画像削除
+    DeleteGraph(g_GameClearBG);
 }

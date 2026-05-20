@@ -3,6 +3,9 @@
 #include "../SceneManager.h"
 #include "../../Input/Input.h"
 
+// GameOver•¶š‰æ‘œƒnƒ“ƒhƒ‹
+int g_GameOverHandle = 0;
+
 GameOverScene::GameOverScene() : SceneBase()
 {
 }
@@ -17,6 +20,8 @@ void GameOverScene::Init()
 
 void GameOverScene::Load()
 {
+    // GameOver‰æ‘œ
+    g_GameOverHandle = LoadGraph("Data/GameOver/GameOver.png");
 }
 
 void GameOverScene::Start()
@@ -38,12 +43,12 @@ void GameOverScene::Update()
 
 void GameOverScene::Draw()
 {
-    DrawString(600, 400, "GAME OVER", GetColor(255, 0, 0));
-    DrawString(520, 500,
-        "PRESS Z KEY",
-        GetColor(255, 255, 255));
+    // GameOver•¶š‰æ‘œ•`‰æ
+    DrawGraph(0, 0, g_GameOverHandle, TRUE);
 }
 
 void GameOverScene::Fin()
 {
+    // •¶š‰æ‘œíœ
+    DeleteGraph(g_GameOverHandle);
 }

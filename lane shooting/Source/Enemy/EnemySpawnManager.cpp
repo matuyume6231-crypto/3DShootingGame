@@ -26,7 +26,16 @@ void EnemySpawnManager::Init()
 		{6.0f, YELLOW_ENEMY, 2, -0.1},
 		{5.0f, OBSTACLE, 0, -0.15f},
 		{8.0f, YELLOW_ENEMY, 1, -0.2},
-		{10.0f, BOSS_ENEMY, 1, 0.0f},
+		{10.0f, YELLOW_ENEMY, 2, -0.2},
+		{12.0f, OBSTACLE, 1, -0.25f},
+		{15.0f, YELLOW_ENEMY, 0, -0.3f},
+		{18.0f, YELLOW_ENEMY, 1, -0.3f},
+		{20.0f, YELLOW_ENEMY, 2, -0.3f},
+		{22.0f, OBSTACLE, 2, -0.35f},
+		{25.0f, YELLOW_ENEMY, 0, -0.4f},
+		{28.0f, YELLOW_ENEMY, 1, -0.4f},
+		{29.0f, YELLOW_ENEMY, 2, -0.4f},
+		{30.0f, BOSS_ENEMY, 1, 0.0f},
 	};
 }
 

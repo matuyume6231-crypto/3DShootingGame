@@ -32,7 +32,11 @@ public:
 	void Fin();
 
 public:
-	EnemyBase* CreateEnemy(EnemyType type);
+	EnemyBase* CreateEnemy(
+		EnemyType type,
+		int lane,
+		VECTOR pos
+	);
 	std::list<EnemyBase*>& GetEnemyList() { return m_EnemyList; }
 private:
 	static EnemyManager* m_Instance;

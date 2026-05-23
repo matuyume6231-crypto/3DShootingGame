@@ -37,6 +37,13 @@ void EffekseerEffect::Fin()
 void EffekseerEffect::Play(int handle)
 {
 	m_Handle = PlayEffekseer3DEffect(handle);
+
+	SetPosPlayingEffekseer3DEffect(
+		m_Handle,
+		m_Pos.x,
+		m_Pos.y,
+		m_Pos.z
+	);
 }
 
 void EffekseerEffect::Stop()

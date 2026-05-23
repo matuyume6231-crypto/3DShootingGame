@@ -43,7 +43,7 @@ public:
 	int GetLane() const { return m_Lane; }
 
 public:
-	void Damage(int damage);
+	virtual void Damage(int damage);
 
 	int GetHP() const { return m_HP; }
 	bool IsDead() const { return m_Dead; }

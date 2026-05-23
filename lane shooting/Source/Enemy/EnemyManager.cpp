@@ -104,10 +104,17 @@ void EnemyManager::Fin()
 	}
 }
 
-EnemyBase* EnemyManager::CreateEnemy(EnemyType type)
+EnemyBase* EnemyManager::CreateEnemy(
+	EnemyType type,
+	int lane,
+	VECTOR pos
+)
 {
 	// タイプに合わせたエネミーをクローンで生成
 	EnemyBase* enemy = m_OriginalEnemy[type]->Clone();
+
+	enemy->SetLane(lane);
+	enemy->SetPos(pos);
 
 	enemy->Start();
 

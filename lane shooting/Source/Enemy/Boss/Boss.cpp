@@ -147,6 +147,16 @@ void Boss::Update()
 	{
 		bullet->Update();
 	}
+
+	if (m_DamageFlash)
+	{
+		m_DamageFlashTimer -= 1.0f / 60.0f;
+
+		if (m_DamageFlashTimer <= 0)
+		{
+			m_DamageFlash = false;
+		}
+	}
 }
 
 void Boss::Draw()
@@ -156,6 +166,21 @@ void Boss::Draw()
 	for (auto bullet : m_Bullets)
 	{
 		bullet->Draw();
+	}
+
+	if (m_DamageFlash)
+	{
+		MV1SetDifColorScale(
+			m_Handle,
+			GetColorF(1.0f, 0.3f, 0.3f, 1.0f)
+		);
+	}
+	else
+	{
+		MV1SetDifColorScale(
+			m_Handle,
+			GetColorF(1, 1, 1, 1)
+		);
 	}
 }
 
@@ -182,4 +207,15 @@ EnemyBase* Boss::Clone()
 	clone->m_AABB = nullptr;
 
 	return clone;
+}
+
+void Boss::Damage(int damage)
+{
+	EnemyBase::Damage(damage);
+
+	if (!m_DamageFlash)
+	{
+		m_DamageFlash = true;
+		m_DamageFlashTimer = 0.1f;
+	}
 }

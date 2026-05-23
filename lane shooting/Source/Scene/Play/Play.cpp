@@ -56,15 +56,8 @@ void PlayScene::Init()
 	// 弾初期化
 	m_ShotTimer = 0.0f;
 
-	// 床
-	//m_Stage = new Stage;
-
 	// 天球生成
 	m_Skybox = new Skybox;
-
-	// ブロック
-	//BlockManager::CreateInstance();
-	//BlockManager::GetInstance()->Init();
 
 	// 敵
 	EnemyManager::CreateInstance();
@@ -81,8 +74,6 @@ void PlayScene::Load()
 	PlayerManager::GetInstance()->Load();
 	CameraManager::GetInstance()->Load();
 	EnemyManager::GetInstance()->Load();
-
-	//m_Stage->Load();
 	// 天球をロード
 	m_Skybox->Load("Data/Skybox/Skybox.x");
 }
@@ -107,8 +98,6 @@ void PlayScene::Step()
 	PlayerManager::GetInstance()->Step();
 	EnemyManager::GetInstance()->Step();
 	camera->Step();
-	//m_Stage->Step();
-	//BlockManager::GetInstance()->Step();
 	// 天球ステップ
 	m_Skybox->Step();
 
@@ -176,8 +165,6 @@ void PlayScene::Update()
 	camera->Update();
 	// 天球更新
 	m_Skybox->Update();
-	//m_Stage->Update();
-	//BlockManager::GetInstance()->Update();
 	
 	// 弾更新
 	for (auto bullet : m_Bullets)
@@ -219,15 +206,6 @@ void PlayScene::Update()
 								enemy->GetPos()
 							);
 						}
-					}
-					else
-					{
-						// 障害物など
-						// 一部の敵は弾で破壊できないので、当たったときのエフェクトだけ出す
-						EffekseerManager::GetInstance()->PlayEffect(
-							EFFEKSEER_BARRIER,
-							enemy->GetPos()
-						);
 					}
 					break; // この弾は終了
 				}
@@ -313,16 +291,12 @@ void PlayScene::Draw()
 	// Effekseer描画
 	EffekseerManager::GetInstance()->Draw();
 	CameraManager::GetInstance()->Draw();
-	//m_Stage->Draw();
-	//BlockManager::GetInstance()->Draw();
 
 	Input::Draw();
 	for (auto bullet : m_Bullets)
 	{
 		bullet->Draw();
 	}
-
-	CollisionManager::GetInstance()->Draw();
 
 	// PlayerのHP表示
 	Player* player = PlayerManager::GetInstance()->GetPlayer();
@@ -365,7 +339,6 @@ void PlayScene::Fin()
 {
 	PlayerManager::DeleteInstance();
 	CameraManager::DeleteInstance();
-	//BlockManager::DeleteInstance();
 	EnemyManager::DeleteInstance();
 	SoundManager::GetInstance()->StopBGM();
 	SoundManager::DeleteInstance();
@@ -377,7 +350,6 @@ void PlayScene::Fin()
 		delete bullet;
 	}
 	m_Bullets.clear();
-	//delete m_Stage;
 	// 天球削除
 	delete m_Skybox;
 

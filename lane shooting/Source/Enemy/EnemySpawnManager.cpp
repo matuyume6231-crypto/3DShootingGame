@@ -49,21 +49,30 @@ void EnemySpawnManager::Update(float deltaTime)
 		{
 			const SpawnData& data = m_SpawnList[m_NextIndex];
 
-			EnemyBase* enemy =
-				EnemyManager::GetInstance()->CreateEnemy(data.type);
-
 			float lanePos[3] = { -10.0f, 0.0f, 10.0f };
 
-			enemy->SetLane(data.lane);
+			VECTOR spawnPos;
+
 			if (data.type == BOSS_ENEMY)
 			{
-				enemy->SetPos(VGet(0.0f, 0.0f, 40.0f));
+				spawnPos = VGet(0.0f, 0.0f, 40.0f);
 			}
 			else
 			{
-				// ‚à‚µif•ª‚ª‚¢‚ç‚È‚¢‚È‚çA‰º‚Ì•”•ª‚¾‚¯Žc‚µ‚Ä‚ ‚Æ‚ÍÁ‚µ‚Ä‚¢‚¢‚æ
-				enemy->SetPos(VGet(lanePos[data.lane], 0.0f, 50.0f));
+				spawnPos = VGet(
+					lanePos[data.lane],
+					0.0f,
+					50.0f
+				);
 			}
+
+			EnemyBase* enemy =
+				EnemyManager::GetInstance()->CreateEnemy(
+					data.type,
+					data.lane,
+					spawnPos
+				);
+
 			enemy->SetMoveSpeed(data.moveSpeed);
 			m_NextIndex++;
 		}

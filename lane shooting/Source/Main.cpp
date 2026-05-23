@@ -2,6 +2,7 @@
 #include "Scene/SceneManager.h"
 #include "Input/Input.h"
 #include "FPS/FPS.h"
+#include "MyEffekseer/EffekseerManager.h"
 
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 900
@@ -14,6 +15,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(FALSE);
 	// 画面解像度の設定
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
+
+	// Effekseerセットアップ
+	EffekseerManager::CreateInstence();
+	EffekseerManager::GetInstance()->Setup();
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -65,6 +70,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// シーンマネージャー削除
 	SceneManager::DeleteInstance();
+
+	// Effekseer削除
+	EffekseerManager::DeleteInstance();
 
 	// 入力終了
 	Input::Fin();

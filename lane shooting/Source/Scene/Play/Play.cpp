@@ -14,6 +14,8 @@
 #include "../../Enemy/Boss/Boss.h"
 #include "../../Skybox/Skybox.h"
 #include "../../Sound/SoundManager.h"
+#include "../../MyEffekseer/EffekseerManager.h"
+#include "../../MyEffekseer/EffekseerParam.h"
 
 PlayScene::PlayScene() : SceneBase()
 {
@@ -26,6 +28,15 @@ PlayScene::~PlayScene()
 
 void PlayScene::Init()
 {
+	// Zバッファーを有効にする
+	SetUseZBuffer3D(TRUE);
+	SetWriteZBuffer3D(TRUE);
+
+	// Effekseer生成
+	EffekseerManager::CreateInstence();
+	// Effekseerを初期化する
+	EffekseerManager::GetInstance()->Init();
+
 	// コリジョン
 	CollisionManager::CreateInstance();
 
@@ -64,6 +75,9 @@ void PlayScene::Init()
 
 void PlayScene::Load()
 {
+	// Effekseerデータをロード
+	EffekseerManager::GetInstance()->Load();
+
 	PlayerManager::GetInstance()->Load();
 	CameraManager::GetInstance()->Load();
 	EnemyManager::GetInstance()->Load();
@@ -75,6 +89,7 @@ void PlayScene::Load()
 
 void PlayScene::Start()
 {
+	EffekseerManager::GetInstance()->Start();
 	PlayerManager::GetInstance()->Start();
 	CameraManager::GetInstance()->Start();
 	EnemyManager::GetInstance()->Start();
@@ -84,6 +99,9 @@ void PlayScene::Start()
 
 void PlayScene::Step()
 {
+	// Effekseerステップ
+	EffekseerManager::GetInstance()->Step();
+
 	CameraManager* camera = CameraManager::GetInstance();
 
 	PlayerManager::GetInstance()->Step();
@@ -127,7 +145,8 @@ void PlayScene::Step()
 void PlayScene::Update()
 {
 	CameraManager* camera = CameraManager::GetInstance();
-
+	// Effekseer更新
+	EffekseerManager::GetInstance()->Update();
 	PlayerManager::GetInstance()->Update();
 
 	Player* player = PlayerManager::GetInstance()->GetPlayer();
@@ -191,6 +210,24 @@ void PlayScene::Update()
 					if (enemy->CanDestroyByBullet())
 					{
 						enemy->Damage(1);
+
+						// 死亡したらエフェクト
+						if (enemy->m_Dead)
+						{
+							EffekseerManager::GetInstance()->PlayEffect(
+								enemy->GetDeathEffectType(),
+								enemy->GetPos()
+							);
+						}
+					}
+					else
+					{
+						// 障害物など
+						// 一部の敵は弾で破壊できないので、当たったときのエフェクトだけ出す
+						EffekseerManager::GetInstance()->PlayEffect(
+							EFFEKSEER_BARRIER,
+							enemy->GetPos()
+						);
 					}
 					break; // この弾は終了
 				}
@@ -273,6 +310,8 @@ void PlayScene::Draw()
 	m_Skybox->Draw();
 	PlayerManager::GetInstance()->Draw();
 	EnemyManager::GetInstance()->Draw();
+	// Effekseer描画
+	EffekseerManager::GetInstance()->Draw();
 	CameraManager::GetInstance()->Draw();
 	//m_Stage->Draw();
 	//BlockManager::GetInstance()->Draw();
@@ -341,4 +380,12 @@ void PlayScene::Fin()
 	//delete m_Stage;
 	// 天球削除
 	delete m_Skybox;
+
+	// Zバッファーを無効にする
+	SetUseZBuffer3D(FALSE);
+	SetWriteZBuffer3D(FALSE);
+
+	// Effekseer終了
+    EffekseerManager::GetInstance()->Fin();
+	EffekseerManager::DeleteInstance();
 }

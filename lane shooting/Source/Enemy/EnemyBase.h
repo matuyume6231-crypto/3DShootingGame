@@ -1,5 +1,6 @@
 #pragma once
 #include "DxLib.h"
+#include "../MyEffekseer/EffekseerParam.h"
 
 class CollisionAABB;
 
@@ -29,8 +30,13 @@ public:
 public:
 
 	void SetPos(VECTOR pos) { m_Pos = pos; }
+	VECTOR GetPos() const { return m_Pos; }
 	bool m_Dead; // Ž€–Sƒtƒ‰ƒO
 	CollisionAABB* GetAABB() { return m_AABB; }
+	virtual int GetDeathEffectType()
+	{
+		return EFFEKSEER_HIT;
+	}
 
 public:
 	void SetLane(int lane) { m_Lane = lane; }

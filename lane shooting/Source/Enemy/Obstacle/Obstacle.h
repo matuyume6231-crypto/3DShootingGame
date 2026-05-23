@@ -16,4 +16,8 @@ public:
 	// ï°êª
 	EnemyBase* Clone() override;
 	bool CanDestroyByBullet() override { return false; }
+	int GetDeathEffectType() override
+	{
+		return EFFEKSEER_BARRIER;
+	}
 };

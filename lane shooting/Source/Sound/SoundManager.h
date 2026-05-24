@@ -38,7 +38,8 @@ public:
 	void PlayShotSE();
 	void PlayHitSE();
 	void PlayDamageSE();
-
+	void PlayFocusSE();
+	void PlayBombSE();
 	void PlayGameBGM();
 	void StopBGM();
 
@@ -49,6 +50,7 @@ private:
 	int m_ShotSE;
 	int m_HitSE;
 	int m_DamageSE;
-
+	int m_FocusSE;
+	int m_BombSE;
 	int m_GameBGM;
 };

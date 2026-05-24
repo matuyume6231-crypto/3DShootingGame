@@ -36,6 +36,10 @@ void YellowEnemy::Start()
 
 	m_Dead = false;
 	m_HP = 1;
+
+	// 初期位置セットしないと(0,0,0)で一瞬表示されてしまうから、初期位置セットしておく
+	// 変数が変わってもモデルは下記の関数で位置を更新するまでは変わらない
+	MV1SetPosition(m_Handle, m_Pos);
 }
 
 void YellowEnemy::Step()

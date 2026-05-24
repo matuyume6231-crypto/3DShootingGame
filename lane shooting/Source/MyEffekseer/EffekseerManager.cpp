@@ -47,8 +47,8 @@ void EffekseerManager::Load()
 	const char* PATH[] =
 	{
 		"Data/Effect/Effekseer_Hit.efkefc",
-		"Data/Effect/Barrier.efkefc",
-		"Data/Effect/EffectC.efkefc"
+		"Data/Effect/PlayerDead.efkefc",
+		"Data/Effect/BossDead.efkefc"
 	};
 
 	for (const char* path : PATH)

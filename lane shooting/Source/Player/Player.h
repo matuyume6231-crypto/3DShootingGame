@@ -42,4 +42,5 @@ private:
 	bool m_IsInvincible;     // –³“Gó‘Ô‚©‚Ç‚¤‚©
 	float m_InvincibleTimer; // –³“Gó‘Ô‚Ìc‚èŠÔ
 	bool m_IsDead;           // €–Sƒtƒ‰ƒO
+	bool m_DeathEffectPlayed;
 };

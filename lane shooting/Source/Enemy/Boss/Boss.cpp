@@ -1,6 +1,10 @@
 #include "Boss.h"
 #include "../../Collision/CollisionManager.h"
 #include "../../Collision/CollisionAABB.h"
+#include "../../MyEffekseer/EffekseerManager.h"
+#include "../../Camera/CameraManager.h"
+#include "../../Camera/CameraDead.h"
+#include "../../Sound/SoundManager.h"
 
 Boss::Boss()
 {
@@ -37,14 +41,24 @@ void Boss::Start()
 	// HP
 	m_HP = 20;
 	m_Dead = false;
-
 	m_ShotTimer = 0.0f;
-
 	m_WaitSecondShot = false;
-
 	m_SecondShotTimer = 0.0f;
-
 	m_SecondLane = 0;
+
+	m_State = BOSS_NORMAL;
+	m_DeathTimer = 0.0f;
+	m_ShakeTimer = 0.0f;
+	m_DeathEffectPlayed = false;
+
+	m_DamageFlash = false;
+	m_DamageFlashTimer = 0.0f;
+
+	m_HideTimer = 0.0f;
+	m_Hidden = false;
+
+	// 初期位置セットしないと(0,0,0)で一瞬表示されてしまうから、初期位置セットしておく
+	MV1SetPosition(m_Handle, m_Pos);
 }
 
 void Boss::Step()
@@ -53,7 +67,15 @@ void Boss::Step()
 
 void Boss::Update()
 {
-	if (m_Dead) return;
+	// 死亡演出中
+	if (m_State == BOSS_DYING)
+	{
+		UpdateDeath();
+		return;
+	}
+
+	if (m_State == BOSS_DEAD)
+		return;
 
 	// ボス位置固定
 	m_Pos.z = 40.0f;
@@ -159,6 +181,59 @@ void Boss::Update()
 	}
 }
 
+void Boss::UpdateDeath()
+{
+	m_DeathTimer -= 1.0f / 60.0f;
+	m_ShakeTimer -= 1.0f / 60.0f;
+
+	// 揺れ
+	if (m_ShakeTimer > 0.0f)
+	{
+		float offset =
+			((rand() % 100) / 100.0f - 0.5f) * 0.8f;
+
+		VECTOR pos = m_Pos;
+		pos.x += offset;
+
+		MV1SetPosition(m_Handle, pos);
+	}
+
+	// 爆発（1回だけ）
+	if (!m_DeathEffectPlayed && m_ShakeTimer <= 0.0f)
+	{
+		EffekseerManager::GetInstance()->PlayEffect(
+			EFFEKSEER_BOSSDEAD,
+			m_Pos
+		);
+
+		SoundManager::GetInstance()->PlayFocusSE();
+
+		m_DeathEffectPlayed = true;
+
+		// 約220フレーム待機
+		m_HideTimer = 220.0f / 60.0f;
+	}
+
+	if (m_DeathEffectPlayed && !m_Hidden)
+	{
+		m_HideTimer -= 1.0f / 60.0f;
+
+		if (m_HideTimer <= 0.0f)
+		{
+			// 爆発SE
+			SoundManager::GetInstance()->PlayBombSE();
+			MV1SetVisible(m_Handle, FALSE);
+			m_Hidden = true;
+		}
+	}
+
+	// 終了
+	if (m_DeathTimer <= 0.0f)
+	{
+		m_State = BOSS_DEAD;
+	}
+}
+
 void Boss::Draw()
 {
 	MV1DrawModel(m_Handle);
@@ -211,11 +286,56 @@ EnemyBase* Boss::Clone()
 
 void Boss::Damage(int damage)
 {
-	EnemyBase::Damage(damage);
+	if (m_State != BOSS_NORMAL)
+	{
+		return;
+	}
+
+	m_HP -= damage;
 
 	if (!m_DamageFlash)
 	{
 		m_DamageFlash = true;
 		m_DamageFlashTimer = 0.1f;
+	}
+
+	if (m_HP <= 0)
+	{
+		m_HP = 0;
+
+		// 残っているボス弾を消す
+		for (auto bullet : m_Bullets)
+		{
+			bullet->Destroy();
+		}
+
+		m_State = BOSS_DYING;
+
+		// BGM停止
+		SoundManager::GetInstance()->StopBGM();
+
+		// 演出時間（8秒エフェクト想定）
+		m_DeathTimer = 9.0f;
+
+		// 揺れ時間（先に少し演出）
+		m_ShakeTimer = 0.7f;
+
+
+		m_DeathEffectPlayed = false;
+
+		// カメラ切替
+		CameraManager* cameraManager = CameraManager::GetInstance();
+
+		cameraManager->CreateCamera(CAMERA_BOSS_DEATH);
+
+		CameraDead* camera =
+			dynamic_cast<CameraDead*>(cameraManager->GetCamera(CAMERA_BOSS_DEATH));
+
+		if (camera)
+		{
+			camera->SetBoss(this);
+		}
+
+		cameraManager->SetActiveCamera(CAMERA_BOSS_DEATH);
 	}
 }

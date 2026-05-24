@@ -1,5 +1,6 @@
 #include "CameraManager.h"
 #include "Camera.h"
+#include "CameraDead.h"
 
 // 静的変数の初期化
 CameraManager* CameraManager::m_Instance = nullptr;
@@ -12,6 +13,8 @@ CameraManager::CameraManager()
 	{
 		m_Camera[i] = nullptr;
 	}
+
+	m_ActiveCamera = CAMERA;
 }
 
 // デストラクタ
@@ -27,6 +30,10 @@ void CameraManager::CreateCamera(CameraType type)
 	{
 	case CAMERA:
 		if (m_Camera[CAMERA] == nullptr)m_Camera[CAMERA] = new Camera;
+		break;
+	case CAMERA_BOSS_DEATH:
+		if (m_Camera[CAMERA_BOSS_DEATH] == nullptr)
+			m_Camera[CAMERA_BOSS_DEATH] = new CameraDead;
 		break;
 	}
 }
@@ -81,13 +88,11 @@ void CameraManager::Step()
 
 void CameraManager::Update()
 {
-	for (int i = 0; i < CAMERA_TYPE_MAX; i++)
+	CameraBase* camera = m_Camera[m_ActiveCamera];
+
+	if (camera)
 	{
-		CameraBase* camera = m_Camera[i];
-		if (camera)
-		{
-			camera->Update();
-		}
+		camera->Update();
 	}
 }
 
@@ -114,4 +119,9 @@ void CameraManager::Fin()
 			m_Camera[i] = nullptr;
 		}
 	}
+}
+
+void CameraManager::SetActiveCamera(CameraType type)
+{
+	m_ActiveCamera = type;
 }

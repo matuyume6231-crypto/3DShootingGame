@@ -4,6 +4,8 @@
 #include "../Collision/CollisionAABB.h"
 #include "../Input/Input.h"
 #include "../Sound/SoundManager.h"
+#include "../MyEffekseer/EffekseerManager.h"
+#include "../MyEffekseer/EffekseerParam.h"
 
 
 #define PLAYER_WIDTH	1.0f
@@ -25,6 +27,7 @@ Player::Player()
 	m_IsInvincible = false;
 	m_InvincibleTimer = 0.0f;
 	m_IsDead = false;
+	m_DeathEffectPlayed = false;
 }
 
 // デストラクタ
@@ -151,5 +154,23 @@ void Player::Damage(int damage)
 	{
 		m_HP = 0;
 		m_IsDead = true;
+
+		// 死亡演出トリガーは1回だけ
+		if (!m_DeathEffectPlayed)
+		{
+			m_DeathEffectPlayed = true;
+
+			// BGM停止
+			SoundManager::GetInstance()->StopBGM();
+
+			// SE
+			SoundManager::GetInstance()->PlayBombSE();
+
+			// エフェクト
+			EffekseerManager::GetInstance()->PlayEffect(
+				EFFEKSEER_PLAYER_DEAD,
+				m_Pos
+			);
+		}
 	}
 }

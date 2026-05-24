@@ -47,6 +47,7 @@ void Camera::Start()
 
 void Camera::Step()
 {
+	/*
 	// キー入力処理
 	if (Input::IsInputKey(Input::KEY_A))
 	{
@@ -68,7 +69,7 @@ void Camera::Step()
 		// 奥回転
 		m_Rot.x -= ROTATION_SPEED;
 	}
-
+	*/
 	// X軸回転は頭上や足元を超えようとするとカメラ向きがひっくり返るため
 	// 超えないように止める
 	if (m_Rot.x >= X_ROTATION_MAX)
@@ -118,7 +119,6 @@ void Camera::Update()
 
 void Camera::Draw()
 {
-	DrawFormatString(0, 80, GetColor(255, 255, 255), "カメラの座標[%f, %f, %f]", m_Pos.x, m_Pos.y, m_Pos.z);
 }
 
 void Camera::Fin()

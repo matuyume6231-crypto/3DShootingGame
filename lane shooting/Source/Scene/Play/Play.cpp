@@ -3,6 +3,7 @@
 #include "../../Player/Player.h"
 #include "../../Player/PlayerManager.h"
 #include "../../Camera/CameraManager.h"
+#include "../../Camera/CameraDead.h"
 #include "../../Input/Input.h"
 #include "../../Collision/CollisionManager.h"
 #include "../../Bullet/Bullet.h"
@@ -52,7 +53,7 @@ void PlayScene::Init()
 	CameraManager::CreateInstance();
 	CameraManager* camera = CameraManager::GetInstance();
 	camera->CreateCamera(CAMERA);
-
+	camera->CreateCamera(CAMERA_BOSS_DEATH);
 	// 弾初期化
 	m_ShotTimer = 0.0f;
 
@@ -64,6 +65,9 @@ void PlayScene::Init()
 	EnemyManager::GetInstance()->Init();
 	m_SpawnManager = new EnemySpawnManager;
 	m_SpawnManager->Init();
+
+	m_GameOver = false;
+	m_GameOverTimer = 0.0f;
 }
 
 void PlayScene::Load()
@@ -85,7 +89,8 @@ void PlayScene::Start()
 	CameraManager::GetInstance()->Start();
 	EnemyManager::GetInstance()->Start();
 	SoundManager::GetInstance()->PlayGameBGM();
-	//m_Stage->Start();
+	m_GameOver = false;
+	m_GameOverTimer = 0.0f;
 }
 
 void PlayScene::Step()
@@ -136,14 +141,35 @@ void PlayScene::Update()
 	CameraManager* camera = CameraManager::GetInstance();
 	// Effekseer更新
 	EffekseerManager::GetInstance()->Update();
+
+	if (m_GameOver)
+	{
+		m_GameOverTimer -= 1.0f / 60.0f;
+
+		// ここで「何も動かさない」
+		PlayerManager::GetInstance()->Update();
+
+		if (m_GameOverTimer <= 0.0f)
+		{
+			SceneManager::GetInstance()->ChangeScene(OVER);
+			return;
+		}
+
+		// 敵・弾・スポーン停止
+		return;
+	}
+
 	PlayerManager::GetInstance()->Update();
 
 	Player* player = PlayerManager::GetInstance()->GetPlayer();
 
 	if (player->IsDead())
 	{
-		SceneManager::GetInstance()->ChangeScene(OVER);
-		return;
+		if (!m_GameOver)
+		{
+			m_GameOver = true;
+			m_GameOverTimer = 1.5f; // 爆発→静止→遷移時間
+		}
 	}
 
 	// ボスが全滅してたらクリア
@@ -152,11 +178,15 @@ void PlayScene::Update()
 	{
 		Boss* boss = dynamic_cast<Boss*>(enemy);
 
-		if (boss && boss->IsDead())
+		for (auto enemy : enemies)
 		{
-			SceneManager::GetInstance()->ChangeScene(CLEAR);
+			Boss* boss = dynamic_cast<Boss*>(enemy);
 
-			return;
+			if (boss && boss->IsDeathFinished())
+			{
+				SceneManager::GetInstance()->ChangeScene(CLEAR);
+				return;
+			}
 		}
 	}
 
@@ -333,6 +363,18 @@ void PlayScene::Draw()
 		VGet(15.0f, 0.01f, 100.0f),
 		GetColor(255, 255, 255)
 	);
+
+	// 操作説明UI（左上）
+	int x = 20;
+	int y = 60;
+
+	// 影（少しずらして黒）
+	DrawString(x + 2, y + 2, "操作：←,→", GetColor(0, 0, 0));
+	DrawString(x + 2, y + 22, "発射：Z", GetColor(0, 0, 0));
+
+	// 本体（白）
+	DrawString(x, y, "操作：←,→", GetColor(255, 255, 255));
+	DrawString(x, y + 20, "発射：Z", GetColor(255, 255, 255));
 }
 
 void PlayScene::Fin()

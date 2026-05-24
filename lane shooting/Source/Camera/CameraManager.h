@@ -5,6 +5,7 @@
 enum CameraType
 {
 	CAMERA,
+	CAMERA_BOSS_DEATH,
 	CAMERA_TYPE_MAX,
 	CAMERA_NONE = -1,
 };
@@ -36,7 +37,11 @@ public:
 	// ŠÇ—’†‚ÌƒJƒƒ‰‚ğæ“¾‚·‚é
 	CameraBase* GetCamera(CameraType type) { return m_Camera[type]; }
 
+	void SetActiveCamera(CameraType type);
+	CameraType GetActiveCamera() const { return m_ActiveCamera; }
+
 private:
 	static CameraManager* m_Instance;
 	CameraBase* m_Camera[CAMERA_TYPE_MAX];
+	CameraType m_ActiveCamera;
 };

@@ -37,6 +37,9 @@ void Obstacle::Start()
 
 	m_Dead = false;
 	m_HP = 99;
+
+	// 初期位置セットしないと(0,0,0)で一瞬表示されてしまうから、初期位置セットしておく
+	MV1SetPosition(m_Handle, m_Pos);
 }
 
 void Obstacle::Step()

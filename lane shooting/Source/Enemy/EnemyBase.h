@@ -51,7 +51,7 @@ public:
 protected:
 	int m_Handle;
 	int m_HP;
-	VECTOR m_Pos;
+	VECTOR m_Pos;    // 位置
 	VECTOR m_Rot;
 	VECTOR m_Move;   // 移動速度
 	// レーン管理用の変数

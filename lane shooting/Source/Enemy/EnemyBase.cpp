@@ -4,7 +4,7 @@
 EnemyBase::EnemyBase()
 {
 	m_Handle = 0;
-	m_Pos = VGet(0.0f, 0.0f, 0.0f);
+	m_Pos = VGet(0.0f, 0.0f, -10.0f);
 	m_Rot = VGet(0.0f, 0.0f, 0.0f);
 	m_Move = VGet(0.0f, 0.0f, -0.1f); // è‘O•ûŒü(-Z)‚Éi‚Ş
 	m_AABB = nullptr;

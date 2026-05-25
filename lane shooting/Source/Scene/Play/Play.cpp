@@ -96,12 +96,33 @@ void PlayScene::Start()
 
 void PlayScene::Step()
 {
+	bool disableInput = false;
+
 	// Effekseerステップ
 	EffekseerManager::GetInstance()->Step();
 
 	CameraManager* camera = CameraManager::GetInstance();
 
-	PlayerManager::GetInstance()->Step();
+	auto& enemies =
+		EnemyManager::GetInstance()->GetEnemyList();
+
+	for (auto enemy : enemies)
+	{
+		Boss* boss = dynamic_cast<Boss*>(enemy);
+
+		if (boss && boss->IsDying())
+		{
+			disableInput = true;
+			break;
+		}
+	}
+
+	// ボス死亡演出中はプレイヤー入力停止
+	if (!disableInput)
+	{
+		PlayerManager::GetInstance()->Step();
+	}
+
 	EnemyManager::GetInstance()->Step();
 	camera->Step();
 	// 天球ステップ
@@ -114,7 +135,8 @@ void PlayScene::Step()
 	}
 
 	// Zキーで発射
-	if (Input::IsTriggerKey(Input::KEY_Z))
+	if (!disableInput &&
+		Input::IsTriggerKey(Input::KEY_Z))
 	{
 		if (m_ShotTimer <= 0.0f)
 		{

@@ -38,6 +38,10 @@ public:
 	{
 		return m_State == BOSS_DEAD;
 	}
+	bool IsDying() const
+	{
+		return m_State == BOSS_DYING;
+	}
 
 private:
 	float m_ShotTimer;

@@ -2,6 +2,7 @@
 #include "GameOver.h"
 #include "../SceneManager.h"
 #include "../../Input/Input.h"
+#include "../../Sound/SoundManager.h"
 
 // GameOver文字画像ハンドル
 int g_GameOverHandle = 0;
@@ -16,6 +17,9 @@ GameOverScene::~GameOverScene()
 
 void GameOverScene::Init()
 {
+    // サウンド
+    SoundManager::CreateInstance();
+    SoundManager::GetInstance()->Load();
 }
 
 void GameOverScene::Load()
@@ -26,6 +30,7 @@ void GameOverScene::Load()
 
 void GameOverScene::Start()
 {
+    SoundManager::GetInstance()->PlayOverBGM();
 }
 
 void GameOverScene::Step()
@@ -49,6 +54,7 @@ void GameOverScene::Draw()
 
 void GameOverScene::Fin()
 {
+    SoundManager::GetInstance()->StopBGM();
     // 文字画像削除
     DeleteGraph(g_GameOverHandle);
 }

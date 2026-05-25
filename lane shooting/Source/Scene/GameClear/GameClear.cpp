@@ -2,6 +2,7 @@
 #include "GameClear.h"
 #include "../SceneManager.h"
 #include "../../Input/Input.h"
+#include "../../Sound/SoundManager.h"
 
 // GameClear画像
 int g_GameClearBG = 0;
@@ -16,6 +17,9 @@ GameClearScene::~GameClearScene()
 
 void GameClearScene::Init()
 {
+    // サウンド
+    SoundManager::CreateInstance();
+    SoundManager::GetInstance()->Load();
     // 文字画像ハンドル初期化
     g_GameClearBG = 0;
 }
@@ -28,6 +32,7 @@ void GameClearScene::Load()
 
 void GameClearScene::Start()
 {
+    SoundManager::GetInstance()->PlayClearBGM();
 }
 
 void GameClearScene::Step()
@@ -49,6 +54,7 @@ void GameClearScene::Draw()
 
 void GameClearScene::Fin()
 {
+    SoundManager::GetInstance()->StopBGM();
     // 文字画像削除
     DeleteGraph(g_GameClearBG);
 }

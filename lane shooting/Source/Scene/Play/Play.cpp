@@ -68,6 +68,7 @@ void PlayScene::Init()
 
 	m_GameOver = false;
 	m_GameOverTimer = 0.0f;
+	m_FontHandle = CreateFontToHandle("Arial", 40, 3);
 }
 
 void PlayScene::Load()
@@ -331,10 +332,12 @@ void PlayScene::Draw()
 	// PlayerのHP表示
 	Player* player = PlayerManager::GetInstance()->GetPlayer();
 
-	DrawFormatString(
+	// HP描画
+	DrawFormatStringToHandle(
 		20,
 		20,
 		GetColor(255, 255, 255),
+		m_FontHandle,
 		"HP : %d",
 		player->GetHP()
 	);
@@ -394,7 +397,7 @@ void PlayScene::Fin()
 	m_Bullets.clear();
 	// 天球削除
 	delete m_Skybox;
-
+	DeleteFontToHandle(m_FontHandle);
 	// Zバッファーを無効にする
 	SetUseZBuffer3D(FALSE);
 	SetWriteZBuffer3D(FALSE);

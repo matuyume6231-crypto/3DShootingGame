@@ -2,6 +2,7 @@
 #include "Title.h"
 #include "../SceneManager.h"
 #include "../../Input/Input.h"
+#include "../../Sound/SoundManager.h"
 
 // ‰æ‘œ
 static int g_TitleHandle = -1;
@@ -18,7 +19,9 @@ TitleScene::~TitleScene()
 
 void TitleScene::Init()
 {
-
+	// ƒTƒEƒ“ƒh
+	SoundManager::CreateInstance();
+	SoundManager::GetInstance()->Load();
 }
 
 void TitleScene::Load()
@@ -28,7 +31,7 @@ void TitleScene::Load()
 
 void TitleScene::Start()
 {
-
+	SoundManager::GetInstance()->PlayTitleBGM();
 }
 
 void TitleScene::Step()
@@ -53,5 +56,6 @@ void TitleScene::Draw()
 
 void TitleScene::Fin()
 {
+	SoundManager::GetInstance()->StopBGM();
 	DeleteGraph(g_TitleHandle);
 }

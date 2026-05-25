@@ -32,4 +32,5 @@ private:
 
 	bool m_GameOver;       // ゲームオーバーフラグ
 	float m_GameOverTimer;
+    int m_FontHandle;// HPの文字を少し大きく
 };

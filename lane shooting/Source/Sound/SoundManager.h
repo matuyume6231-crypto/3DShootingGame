@@ -40,7 +40,10 @@ public:
 	void PlayDamageSE();
 	void PlayFocusSE();
 	void PlayBombSE();
+	void PlayTitleBGM();
 	void PlayGameBGM();
+	void PlayClearBGM();
+	void PlayOverBGM();
 	void StopBGM();
 
 private:
@@ -52,5 +55,8 @@ private:
 	int m_DamageSE;
 	int m_FocusSE;
 	int m_BombSE;
+	int m_TitleBGM;
 	int m_GameBGM;
+	int m_ClearBGM;
+	int m_OverBGM;
 };
